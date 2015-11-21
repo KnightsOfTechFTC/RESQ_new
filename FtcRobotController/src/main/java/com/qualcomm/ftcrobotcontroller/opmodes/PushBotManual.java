@@ -85,6 +85,14 @@ public class PushBotManual extends PushBotTelemetry
         float l_left_arm_power = scale_motor_power (-gamepad2.left_stick_y);
         m_left_arm_power (l_left_arm_power);
 
+  // Manage the holder servo
+
+        if (gamepad2.dpad_up) {
+            m_holder_position(a_holder_position()+.01);
+        }
+        else if (gamepad2.dpad_down) {
+            m_holder_position(a_holder_position()-.01);
+        }
         //----------------------------------------------------------------------
         //
         // Servo Motors
