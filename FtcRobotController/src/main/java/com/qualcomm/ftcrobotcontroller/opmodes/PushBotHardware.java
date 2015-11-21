@@ -126,7 +126,7 @@ public class PushBotHardware extends OpMode
         // hand should be halfway opened/closed.
         //
         double l_hand_position = 0.5;
-
+double l_holder_position = 0;
         try
         {
             v_servo_left_hand = hardwareMap.servo.get ("left_hand");
@@ -139,7 +139,19 @@ public class PushBotHardware extends OpMode
 
             v_servo_left_hand = null;
         }
+try
+        {
+            v_servo_holder = hardwareMap.servo.get ("holder");
 
+            v_servo_holder.setPosition (l_holder_position);
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("holder");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_servo_holder = null;
+        }
         try
         {
             v_servo_right_hand = hardwareMap.servo.get ("right_hand");
@@ -208,6 +220,54 @@ public class PushBotHardware extends OpMode
 
     //--------------------------------------------------------------------------
     //
+     //--------------------------------------------------------------------------
+    //
+    // a_holder_position
+    //
+    /**
+     * Access the holder servo's position.
+     */
+    double a_holder_position ()
+    {
+        double l_return = 0.0;
+
+        if (v_servo_holder != null)
+        {
+            l_return = v_servo_holder.getPosition ();
+        }
+
+        return l_return;
+
+    } // a_holder_position
+
+    //--------------------------------------------------------------------------
+    //
+    // m_holder_position
+    //
+    /**
+     * Mutate the holder servo's position.
+     */
+    void m_holder_position (double p_position)
+    {
+        //
+        // Ensure the specific value is legal.
+        //
+        double l_position = Range.clip
+                ( p_position
+
+                          , Servo.MIN_POSITION
+                         , Servo.MAX_POSITION
+                );
+
+
+        if (v_servo_holder != null)
+        {
+            v_servo_holder.setPosition (l_position);
+        }
+
+
+
+    } // m_holder_position
     // start
     //
     /**
@@ -936,8 +996,8 @@ public class PushBotHardware extends OpMode
         //
         double l_position = Range.clip
             ( p_position
-            , Servo.MIN_POSITION
-            , Servo.MAX_POSITION
+            , .45
+            , .95
             );
 
         //
@@ -1042,5 +1102,7 @@ public class PushBotHardware extends OpMode
      * Manage the aspects of the right hand servo.
      */
     private Servo v_servo_right_hand;
-
+private  Servo v_servo_left_arm;
+private  Servo v_servo_right_arm;
+private  Servo v_servo_holder;
 } // PushBotHardware
