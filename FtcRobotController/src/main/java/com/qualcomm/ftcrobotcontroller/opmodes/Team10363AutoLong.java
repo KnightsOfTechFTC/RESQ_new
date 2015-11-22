@@ -131,7 +131,6 @@ public class Team10363AutoLong extends PushBotTelemetry
                 //
                 set_drive_power (0.0f, 0.0f);// Reset the encoders to ensure they are at a known good value.
                 //
-                reset_drive_encoders ();
 
                 //
                 // Stop the motors.
@@ -149,32 +148,26 @@ public class Team10363AutoLong extends PushBotTelemetry
         // Wait...
         //
         case 2:
-            if (have_drive_encoders_reset ())
-            {
                 set_drive_power(-0.5f, 0.0f);
-                if (have_drive_encoders_reached(-360,0)) {
+                if (have_drive_encoders_reached(9724,10084)) {
                     set_drive_power(0.0f, 0.0f);
-                    reset_drive_encoders();
                     v_state++;
                 }
-            }
+
             break;
 
             case 3:
-                if (have_drive_encoders_reset()) {
+
                     set_drive_power(0.5f,0.5f);
-                    if (have_drive_encoders_reached(720,720)) {
+                    if (have_drive_encoders_reached(10444,10804)) {
                         set_drive_power(0.0f,0.0f);
-                        reset_drive_encoders();
                         v_state++;
-                    }
                 }
                 break;
             case 4:
-                if ((have_drive_encoders_reset()));
-            { m_hand_position(1);
+
+            m_hand_position(1);
                 v_state++;
-            }
             break;
             case 5:
                 try {
@@ -183,19 +176,17 @@ public class Team10363AutoLong extends PushBotTelemetry
                     e.printStackTrace();
                 }
 
-
                 set_drive_power(-0.5f,-0.5f);
-                if (have_drive_encoders_reached(720,720)) {
-                reset_drive_encoders();
+                if (have_drive_encoders_reached(9724,10084)) {
                     set_drive_power(0.0f,0.0f);
                     v_state++;
                 }
                 break;
             case 6:
-                if (have_drive_encoders_reset()){
+
                 m_hand_position(0);
                    v_state++;
-                }
+
 
 
         // Turn left until the encoders exceed the specified values.
