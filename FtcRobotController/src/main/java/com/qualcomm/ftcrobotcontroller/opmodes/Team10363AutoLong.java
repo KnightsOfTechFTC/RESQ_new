@@ -59,20 +59,6 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         super.start ();
 
-        GyroSensor sensorGyro;
-        int xVal, yVal, zVal = 0;
-        int heading = 0;
-
-        // write some device information (connection info, name and type)
-        // to the log file.
-        hardwareMap.logDevices();
-
-        // get a reference to our GyroSensor object.
-        sensorGyro = hardwareMap.gyroSensor.get("gyro");
-
-        // calibrate the gyro.
-        sensorGyro.calibrate();
-        //
         // Reset the motor encoders on the drive wheels.
         //
         reset_drive_encoders ();
@@ -165,12 +151,53 @@ public class Team10363AutoLong extends PushBotTelemetry
         case 2:
             if (have_drive_encoders_reset ())
             {
-                v_state++;
+                set_drive_power(-0.25f, 0.0f);
+                if (have_drive_encoders_reached(-360,0)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
+                    v_state++;
+                }
             }
             break;
 
+            case 3:
+                if (have_drive_encoders_reset()) {
+                    set_drive_power(.5f,.5f);
+                    if (have_drive_encoders_reached(720,720)) {
+                        reset_drive_encoders();
+                        set_drive_power(0.0f,0.0f);
+                        v_state++;
+                    }
+                }
+                break;
+            case 4:
+                if ((have_drive_encoders_reset()));
+            { m_hand_position(1);
+                v_state++;
+            }
+            break;
+            case 5:
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-        //
+
+                set_drive_power(-.5,-.5);
+                if (have_drive_encoders_reached(720,720)) {
+                reset_drive_encoders();
+                    set_drive_power(0,0);
+                    v_state++;
+                }
+                break;
+            case 6:
+                if (have_drive_encoders_reset()){
+                m_hand_position(0);
+                   v_state++;
+                }
+
+
         // Turn left until the encoders exceed the specified values.
         //
        /* case 3:
