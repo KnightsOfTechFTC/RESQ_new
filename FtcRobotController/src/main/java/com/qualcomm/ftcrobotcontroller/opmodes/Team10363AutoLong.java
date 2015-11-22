@@ -162,7 +162,7 @@ public class Team10363AutoLong extends PushBotTelemetry
 
             case 3:
                 if (have_drive_encoders_reset()) {
-                    set_drive_power(.5f,.5f);
+                    set_drive_power(0.5f,0.5f);
                     if (have_drive_encoders_reached(720,720)) {
                         set_drive_power(0.0f,0.0f);
                         reset_drive_encoders();
@@ -184,7 +184,7 @@ public class Team10363AutoLong extends PushBotTelemetry
                 }
 
 
-                set_drive_power(-.5,-.5);
+                set_drive_power(-0.5f,-0.5f);
                 if (have_drive_encoders_reached(720,720)) {
                 reset_drive_encoders();
                     set_drive_power(0.0f,0.0f);
