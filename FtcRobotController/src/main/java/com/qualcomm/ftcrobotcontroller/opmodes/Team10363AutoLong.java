@@ -140,7 +140,8 @@ public class Team10363AutoLong extends PushBotTelemetry
                 //
                 // Transition to the next state when this method is called
                 // again.
-                //
+                m_hand_position(1);
+                m_hand_position(0);
                 v_state++;
             }
             break;
@@ -152,6 +153,8 @@ public class Team10363AutoLong extends PushBotTelemetry
                 if (have_drive_encoders_reached(9724,10084)) {
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
+                    m_hand_position(1);
+                    m_hand_position(0);
                 }
 
             break;
@@ -162,12 +165,16 @@ public class Team10363AutoLong extends PushBotTelemetry
                     if (have_drive_encoders_reached(10444,10804)) {
                         set_drive_power(0.0f,0.0f);
                         v_state++;
+                        m_hand_position(1);
+                        m_hand_position(0);
                 }
                 break;
             case 4:
 
-            m_hand_position(1);
+            m_holder_position(1);
                 v_state++;
+                m_hand_position(1);
+                m_hand_position(0);
             break;
             case 5:
                 try {
@@ -180,10 +187,19 @@ public class Team10363AutoLong extends PushBotTelemetry
                 if (have_drive_encoders_reached(9724,10084)) {
                     set_drive_power(0.0f,0.0f);
                     v_state++;
+                    m_hand_position(1);
+                    m_hand_position(0);
                 }
                 break;
             case 6:
 
+                m_holder_position(0);
+                m_hand_position(1);
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 m_hand_position(0);
                    v_state++;
 
