@@ -129,14 +129,14 @@ public class Team10363AutoLong extends PushBotTelemetry
             if (have_drive_encoders_reached (10084, 10084))
             {
                 //
-                // Reset the encoders to ensure they are at a known good value.
+                set_drive_power (0.0f, 0.0f);// Reset the encoders to ensure they are at a known good value.
                 //
                 reset_drive_encoders ();
 
                 //
                 // Stop the motors.
                 //
-                set_drive_power (0.0f, 0.0f);
+
 
                 //
                 // Transition to the next state when this method is called
@@ -153,8 +153,8 @@ public class Team10363AutoLong extends PushBotTelemetry
             {
                 set_drive_power(-0.25f, 0.0f);
                 if (have_drive_encoders_reached(-360,0)) {
-                    reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
+                    reset_drive_encoders();
                     v_state++;
                 }
             }
@@ -164,8 +164,8 @@ public class Team10363AutoLong extends PushBotTelemetry
                 if (have_drive_encoders_reset()) {
                     set_drive_power(.5f,.5f);
                     if (have_drive_encoders_reached(720,720)) {
-                        reset_drive_encoders();
                         set_drive_power(0.0f,0.0f);
+                        reset_drive_encoders();
                         v_state++;
                     }
                 }
@@ -187,7 +187,7 @@ public class Team10363AutoLong extends PushBotTelemetry
                 set_drive_power(-.5,-.5);
                 if (have_drive_encoders_reached(720,720)) {
                 reset_drive_encoders();
-                    set_drive_power(0,0);
+                    set_drive_power(0.0f,0.0f);
                     v_state++;
                 }
                 break;
