@@ -4,6 +4,9 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 //
 // PushBotAuto
 //
+
+import com.qualcomm.robotcore.hardware.GyroSensor;
+
 /**
  * Provide a basic autonomous operational mode that uses the left and right
  * drive motors and associated encoders implemented using a state machine for
@@ -56,6 +59,23 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         super.start ();
 
+        GyroSensor sensorGyro;
+        int xVal, yVal, zVal = 0;
+        int heading = 0;
+
+        // write some device information (connection info, name and type)
+        // to the log file.
+        hardwareMap.logDevices();
+
+        // get a reference to our GyroSensor object.
+        sensorGyro = hardwareMap.gyroSensor.get("gyro");
+
+        // calibrate the gyro.
+        sensorGyro.calibrate();
+        //
+        // Reset the motor encoders on the drive wheels.
+        //
+        reset_drive_encoders ();
         //
         // Reset the motor encoders on the drive wheels.
         //
