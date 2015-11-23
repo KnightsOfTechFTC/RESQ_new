@@ -148,7 +148,7 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         // Wait...
         //
-        case 2:
+     /*   case 2:
                 set_drive_power(-0.5f, 0.0f);
                 if (anti_have_drive_encoders_reached(9724,10084)) {
                     set_drive_power(0.0f, 0.0f);
@@ -248,8 +248,8 @@ public class Team10363AutoLong extends PushBotTelemetry
                 v_state++;
             }
             break;
-    */  //
-        // Perform no action - stay in this case until the OpMode is stopped.
+    */  ///
+             // / Perform no action - stay in this case until the OpMode is stopped.
         // This method will still be called regardless of the state machine.
         //
         default:
