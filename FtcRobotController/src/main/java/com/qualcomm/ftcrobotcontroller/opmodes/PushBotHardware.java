@@ -657,6 +657,7 @@ try
 
     //--------------------------------------------------------------------------
     //
+    
     // has_left_drive_encoder_reached
     //
     /**
@@ -767,7 +768,35 @@ try
         return l_return;
 
     } // have_encoders_reached
+boolean anti_have_drive_encoders_reached
+        ( double p_left_count
+        , double p_right_count
+        )
 
+    {
+        //
+        // Assume failure.
+        //
+        boolean l_return = true;
+
+        //
+        // Have the encoders reached the specified values?
+        //
+        if (has_left_drive_encoder_reached (p_left_count) &&
+            has_right_drive_encoder_reached (p_right_count))
+        {
+            //
+            // Set the status to a negative indication.
+            //
+            l_return = false;
+        }
+
+        //
+        // Return the status.
+        //
+        return l_return;
+
+    }
     //--------------------------------------------------------------------------
     //
     // drive_using_encoders
