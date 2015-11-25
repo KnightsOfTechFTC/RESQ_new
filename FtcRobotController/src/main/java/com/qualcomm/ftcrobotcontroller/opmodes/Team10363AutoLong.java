@@ -83,6 +83,7 @@ public class Team10363AutoLong extends PushBotTelemetry
      * The system calls this member repeatedly while the OpMode is running.
      */
     double timeToWaitFor = 0;
+    @Override public void loop ()
 
     {
         //----------------------------------------------------------------------
