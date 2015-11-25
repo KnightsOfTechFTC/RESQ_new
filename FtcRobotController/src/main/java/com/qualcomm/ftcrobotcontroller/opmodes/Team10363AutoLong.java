@@ -82,7 +82,6 @@ public class Team10363AutoLong extends PushBotTelemetry
      *
      * The system calls this member repeatedly while the OpMode is running.
      */
-    double timeToWaitFor = 0;
     @Override public void loop ()
 
     {
@@ -129,7 +128,7 @@ public class Team10363AutoLong extends PushBotTelemetry
             // If they haven't, then the op-mode remains in this state (i.e this
             // block will be executed the next time this method is called).
             //
-            if (have_drive_encoders_reached (10267, 10267))
+            if (have_drive_encoders_reached (10084, 10084))
             {
                 //
                 set_drive_power (0.0f, 0.0f);// Reset the encoders to ensure they are at a known good value.
@@ -147,43 +146,10 @@ public class Team10363AutoLong extends PushBotTelemetry
                 v_state++;
             }
             break;
-            case 2:
-                set_drive_power(0.0f,-.5f);
-                if (anti_have_drive_encoders_reached(10267,9907));
-            {
-                set_drive_power(0.0f,0.0f);
-                v_state++;
-            }
-            break;
-            case 3:
-                set_drive_power(.5f,.5f);
-                if (have_drive_encoders_reached(13147,12787));
-            {
-                set_drive_power(0.0f,0.0f);
-                v_state++;
-            }
-            break;
-            case 4:
-                m_holder_position(1);
-                timeToWaitFor = System.currentTimeMillis() + 3000; while (timeToWaitFor > System.currentTimeMillis()){}
-                v_state++;
-                break;
-            case 5:
-                set_drive_power(-0.5f,-0.5f);
-                if (anti_have_drive_encoders_reached(12427,12067));
-            {
-               set_drive_power(0.0f,0.0f);
-                v_state++;
-            }
-            break;
-            case 6:
-                m_holder_position(0);
-                v_state++;
-                break;
         //
         // Wait...
         //
-/*        case 2:
+        case 2:
                 set_drive_power(0.0f,-0.5f);
                 if (anti_have_drive_encoders_reached(10084,9724)) {
                     set_drive_power(0.0f, 0.0f);
@@ -208,7 +174,7 @@ public class Team10363AutoLong extends PushBotTelemetry
 
             break;
             case 5:
-                double timeToWaitFor = System.currentTimeMillis() + 3000;
+                double timeToWaitFor = System.currentTimeMillis() + 1000;
                 while (timeToWaitFor > System.currentTimeMillis()) {}
                 set_drive_power(-0.5f, -0.5f);
                 if (anti_have_drive_encoders_reached(10084,9724)) {
@@ -222,13 +188,13 @@ public class Team10363AutoLong extends PushBotTelemetry
 
                 m_holder_position(0);
                 m_hand_position(1);
-                double timeToWaitFor2 = System.currentTimeMillis() + 3000;
+                double timeToWaitFor2 = System.currentTimeMillis() + 1000;
                 while (timeToWaitFor2 > System.currentTimeMillis()) {}
                 m_hand_position(0);
                    v_state++;
 
 
-*/
+
         // Turn left until the encoders exceed the specified values.
         //
        /* case 3:
