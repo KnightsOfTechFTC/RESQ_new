@@ -62,7 +62,6 @@ public class Team10363AutoLong extends PushBotTelemetry
         super.start ();
 
         // Reset the motor encoders on the drive wheels.
-        //
         reset_drive_encoders ();
         //
         // Reset the motor encoders on the drive wheels.
