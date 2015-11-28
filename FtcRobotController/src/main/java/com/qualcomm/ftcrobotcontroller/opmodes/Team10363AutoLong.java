@@ -94,104 +94,36 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         // Synchronize the state machine and hardware.
         //
-        case 0:
-            //
-            // Reset the encoders to ensure they are at a known good value.
-            //
-            reset_drive_encoders ();
-
-            //
-            // Transition to the next state when this method is called again.
-            //
-            v_state++;
-
-            break;
-        //
-        // Drive forward until the encoders exceed the specified values.
-        //
-        case 1:
-            //
-            // Tell the system that motor encoders will be used.  This call MUST
-            // be in this state and NOT the previous or the encoders will not
-            // work.  It doesn't need to be in subsequent states.
-            //
-            run_using_encoders ();
-
-            //
-            // Start the drive wheel motors at full power.
-            //
-            set_drive_power (.5f, .5f);
-
-            //
-            // Have the motor shafts turned the required amount?
-            //
-            // If they haven't, then the op-mode remains in this state (i.e this
-            // block will be executed the next time this method is called).
-            //
-            if (have_drive_encoders_reached (10084, 10084))
-            {
-                //
-                set_drive_power (0.0f, 0.0f);// Reset the encoders to ensure they are at a known good value.
-                //
-
-                //
-                // Stop the motors.
-                //
-
-
-                //
-                // Transition to the next state when this method is called
-                // again.
-
+            case 0:
+                reset_drive_encoders();
                 v_state++;
-            }
-            break;
-        //
-        // Wait...
-        //
-        case 2:
-                set_drive_power(0.0f,-0.5f);
-                if (anti_have_drive_encoders_reached(10084,9724)) {
-                    set_drive_power(0.0f, 0.0f);
-                    v_state++;
-                }
-
-            break;
-
+                break;
+            case 1:
+                run_using_encoders();
+                go_to_floor_goal(10267);
+                v_state++;
+                break;
+            case 2:
+                move_right_wheel_backwards();
+                v_state++;
+                break;
             case 3:
-
-                    set_drive_power(0.5f,0.5f);
-                    if (have_drive_encoders_reached(10804,10084)) {
-                        set_drive_power(0.0f, 0.0f);
-                        v_state++;
-
-                }
+                go_to_floor_goal(2880);
+                v_state++;
                 break;
             case 4:
-
-            m_holder_position(1);
+                move_holder_down_and_wait(300);
                 v_state++;
-
-            break;
+                break;
             case 5:
-                double timeToWaitFor = System.currentTimeMillis() + 1000;
-                while (timeToWaitFor > System.currentTimeMillis()) {}
-                set_drive_power(-0.5f, -0.5f);
-                if (anti_have_drive_encoders_reached(10084,9724)) {
-                    set_drive_power(0.0f,0.0f);
-                    v_state++;
-                    m_hand_position(1);
-                    m_hand_position(0);
-                }
+                go_backwards(720);
+                v_state++;
                 break;
             case 6:
-
                 m_holder_position(0);
-                m_hand_position(1);
-                double timeToWaitFor2 = System.currentTimeMillis() + 1000;
-                while (timeToWaitFor2 > System.currentTimeMillis()) {}
-                m_hand_position(0);
-                   v_state++;
+                v_state++;
+                break;
+
 
 
 

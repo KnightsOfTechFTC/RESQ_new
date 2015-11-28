@@ -731,6 +731,45 @@ try
         return l_return;
 
     } // has_right_drive_encoder_reached
+    void go_to_floor_goal (double distance)
+    {
+        reset_drive_encoders();
+        while (!have_drive_encoders_reset()) {}
+        set_drive_power (.5f, .5f);
+
+        //
+        // Have the motor shafts turned the required amount?
+        //
+        // If they haven't, then the op-mode remains in this state (i.e this
+        // block will be executed the next time this method is called).
+        //
+        while (!have_drive_encoders_reached(distance, distance))  {}
+
+        //
+        set_drive_power (0.0f, 0.0f);
+    }
+    void move_right_wheel_backwards ()
+    {
+        reset_drive_encoders();
+        while (!have_drive_encoders_reset()) {}
+        set_drive_power(0.0f,-.5f);
+        while (!anti_have_drive_encoders_reached(0, -360)){}
+
+        set_drive_power(0.0f,0.0f);
+    }
+    void move_holder_down_and_wait (double t)
+    {
+        double timeToWaitFor;
+        m_holder_position(1);
+        timeToWaitFor = System.currentTimeMillis() + t; while (timeToWaitFor > System.currentTimeMillis()){}
+    }
+    void go_backwards (double distance)
+    {
+        reset_drive_encoders(); while (!have_drive_encoders_reset()){}
+        set_drive_power(-.5f,-.5f); while (!anti_have_drive_encoders_reached(distance,distance)){}
+        set_drive_power(0.0f,0.0f);
+    }
+
 
     //--------------------------------------------------------------------------
     //
