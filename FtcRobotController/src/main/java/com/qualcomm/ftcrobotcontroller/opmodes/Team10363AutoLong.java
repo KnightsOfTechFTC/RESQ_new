@@ -44,15 +44,7 @@ public class Team10363AutoLong extends PushBotTelemetry
 
     } // PushBotAuto
 
-    //--------------------------------------------------------------------------
-    //
-    // start
-    //
-    /**
-     * Perform any actions that are necessary when the OpMode is enabled.
-     *
-     * The system calls this member once when the OpMode is enabled.
-     */
+
     @Override public void start ()
 
     {
@@ -71,18 +63,6 @@ public class Team10363AutoLong extends PushBotTelemetry
 
     } // start
 
-    //--------------------------------------------------------------------------
-    //
-    // loop
-    //
-    /**
-     * Implement a state machine that controls the robot during auto-operation.
-     * The state machine uses a class member and encoder input to transition
-     * between states.
-     *
-     * The system calls this member repeatedly while the OpMode is running.
-     */
-    double timeToWaitFor = 0;
 
     {
         //----------------------------------------------------------------------
@@ -120,18 +100,7 @@ public class Team10363AutoLong extends PushBotTelemetry
             //
             // Start the drive wheel motors at full power.
             //
-            set_drive_power (.5f, .5f);
-
-            //
-            // Have the motor shafts turned the required amount?
-            //
-            // If they haven't, then the op-mode remains in this state (i.e this
-            // block will be executed the next time this method is called).
-            //
-            while (have_drive_encoders_reached (10267, 10267) == false)  {}
-
-                //
-                set_drive_power (0.0f, 0.0f);// Reset the encoders to ensure they are at a known good value.
+           // Reset the encoders to ensure they are at a known good value.
                 /*
 
 
@@ -141,36 +110,12 @@ public class Team10363AutoLong extends PushBotTelemetry
                 Transition to the next state when this method is called
                 again.
                 */
-
-
-
-
-
-             set_drive_power(0.0f,-.5f);
-             while (anti_have_drive_encoders_reached(10267,9907)==false){}
-
-             set_drive_power(0.0f,0.0f);
-
-
-
-
-             set_drive_power(.5f,.5f);
-             while (have_drive_encoders_reached(13147,12787)==false){}
-             set_drive_power(0.0f,0.0f);
-
-
-             m_holder_position(1);
-             timeToWaitFor = System.currentTimeMillis() + 3000; while (timeToWaitFor > System.currentTimeMillis()){}
-
-         set_drive_power(-0.5f,-0.5f);
-             while (!anti_have_drive_encoders_reached(12427,12067)){}
-
-            set_drive_power(0.0f,0.0f);
-
-
-
-
-         m_holder_position(0);
+        go_to_floor_goal(10267);
+        move_right_wheel_backwards();
+        go_to_floor_goal(2880);
+        move_holder_down_and_wait(3000);
+        go_backwards(720);
+        m_holder_position(0);
 
 
 
