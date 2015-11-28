@@ -89,6 +89,7 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         // State: Initialize (i.e. state_0).
         //
+        boolean has_finished_message_been_given = false;
         switch (v_state)
         {
         //
@@ -176,6 +177,14 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         default:
             //
+
+            if (!has_finished_message_been_given)
+            {
+                has_finished_message_been_given=true;
+                update_telemetry();
+                telemetry.addData ("18", "Finished");
+                update_telemetry();// Update common telemetry
+            }
             // The autonomous actions have been accomplished (i.e. the state has
             // transitioned into its final state.
             //
