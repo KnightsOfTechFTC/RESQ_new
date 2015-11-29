@@ -147,7 +147,7 @@ public class Team10363AutoLong extends PushBotTelemetry
 
 
              set_drive_power(0.0f,-.5f);
-             while (anti_have_drive_encoders_reached(10267,9907)==false){}
+             while (!anti_have_drive_encoders_reached(10267,9907)){}
 
              set_drive_power(0.0f,0.0f);
 
@@ -155,7 +155,7 @@ public class Team10363AutoLong extends PushBotTelemetry
 
 
              set_drive_power(.5f,.5f);
-             while (have_drive_encoders_reached(13147,12787)==false){}
+             while (have_drive_encoders_reached(13147,12787)){}
              set_drive_power(0.0f,0.0f);
 
 
