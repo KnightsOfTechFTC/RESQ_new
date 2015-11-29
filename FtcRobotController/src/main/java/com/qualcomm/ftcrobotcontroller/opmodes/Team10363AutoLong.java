@@ -90,12 +90,12 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         // State: Initialize (i.e. state_0).
         //
-        switch (v_state)
-        {
+
+
         //
         // Synchronize the state machine and hardware.
         //
-        case 0:
+
             //
             // Reset the encoders to ensure they are at a known good value.
             //
@@ -104,13 +104,13 @@ public class Team10363AutoLong extends PushBotTelemetry
             //
             // Transition to the next state when this method is called again.
             //
-            v_state++;
 
-            break;
+
+
         //
         // Drive forward until the encoders exceed the specified values.
         //
-        case 1:
+
             //
             // Tell the system that motor encoders will be used.  This call MUST
             // be in this state and NOT the previous or the encoders will not
@@ -129,57 +129,52 @@ public class Team10363AutoLong extends PushBotTelemetry
             // If they haven't, then the op-mode remains in this state (i.e this
             // block will be executed the next time this method is called).
             //
-            if (have_drive_encoders_reached (10267, 10267))
-            {
+            while (have_drive_encoders_reached (10267, 10267) == false)  {}
+
                 //
                 set_drive_power (0.0f, 0.0f);// Reset the encoders to ensure they are at a known good value.
-                //
-
-                //
-                // Stop the motors.
-                //
+                /*
 
 
-                //
-                // Transition to the next state when this method is called
-                // again.
+                Stop the motors.
 
-                v_state++;
-            }
-            break;
-            case 2:
-                set_drive_power(0.0f,-.5f);
-                if (anti_have_drive_encoders_reached(10267,9907));
-            {
-                set_drive_power(0.0f,0.0f);
-                v_state++;
-            }
-            break;
-            case 3:
-                set_drive_power(.5f,.5f);
-                if (have_drive_encoders_reached(13147,12787));
-            {
-                set_drive_power(0.0f,0.0f);
-                v_state++;
-            }
-            break;
-            case 4:
-                m_holder_position(1);
-                timeToWaitFor = System.currentTimeMillis() + 3000; while (timeToWaitFor > System.currentTimeMillis()){}
-                v_state++;
-                break;
-            case 5:
-                set_drive_power(-0.5f,-0.5f);
-                if (anti_have_drive_encoders_reached(12427,12067));
-            {
-               set_drive_power(0.0f,0.0f);
-                v_state++;
-            }
-            break;
-            case 6:
-                m_holder_position(0);
-                v_state++;
-                break;
+
+                Transition to the next state when this method is called
+                again.
+                */
+
+
+
+
+
+             set_drive_power(0.0f,-.5f);
+             while (!anti_have_drive_encoders_reached(10267,9907)){}
+
+             set_drive_power(0.0f,0.0f);
+
+
+
+
+             set_drive_power(.5f,.5f);
+             while (have_drive_encoders_reached(13147,12787)){}
+             set_drive_power(0.0f,0.0f);
+
+
+             m_holder_position(1);
+             timeToWaitFor = System.currentTimeMillis() + 3000; while (timeToWaitFor > System.currentTimeMillis()){}
+
+         set_drive_power(-0.5f,-0.5f);
+             while (!anti_have_drive_encoders_reached(12427,12067)){}
+
+            set_drive_power(0.0f,0.0f);
+
+
+
+
+         m_holder_position(0);
+
+
+
         //
         // Wait...
         //
@@ -187,7 +182,7 @@ public class Team10363AutoLong extends PushBotTelemetry
                 set_drive_power(0.0f,-0.5f);
                 if (anti_have_drive_encoders_reached(10084,9724)) {
                     set_drive_power(0.0f, 0.0f);
-                    v_state++;
+
                 }
 
             break;
@@ -197,14 +192,14 @@ public class Team10363AutoLong extends PushBotTelemetry
                     set_drive_power(0.5f,0.5f);
                     if (have_drive_encoders_reached(10804,10084)) {
                         set_drive_power(0.0f, 0.0f);
-                        v_state++;
+
 
                 }
                 break;
             case 4:
 
             m_holder_position(1);
-                v_state++;
+
 
             break;
             case 5:
@@ -213,7 +208,7 @@ public class Team10363AutoLong extends PushBotTelemetry
                 set_drive_power(-0.5f, -0.5f);
                 if (anti_have_drive_encoders_reached(10084,9724)) {
                     set_drive_power(0.0f,0.0f);
-                    v_state++;
+
                     m_hand_position(1);
                     m_hand_position(0);
                 }
@@ -225,7 +220,7 @@ public class Team10363AutoLong extends PushBotTelemetry
                 double timeToWaitFor2 = System.currentTimeMillis() + 3000;
                 while (timeToWaitFor2 > System.currentTimeMillis()) {}
                 m_hand_position(0);
-                   v_state++;
+
 
 
 */
@@ -238,7 +233,7 @@ public class Team10363AutoLong extends PushBotTelemetry
             {
                 reset_drive_encoders ();
                 set_drive_power (0.0f, 0.0f);
-                v_state++;
+
             }
             break;
         //
@@ -247,7 +242,7 @@ public class Team10363AutoLong extends PushBotTelemetry
         case 4:
             if (have_drive_encoders_reset ())
             {
-                v_state++;
+
             }
             break;
         //
@@ -260,7 +255,7 @@ public class Team10363AutoLong extends PushBotTelemetry
             {
                 reset_drive_encoders ();
                 set_drive_power (0.0f, 0.0f);
-                v_state++;
+
             }
             break;
         //
@@ -269,26 +264,25 @@ public class Team10363AutoLong extends PushBotTelemetry
         case 6:
             if (have_drive_encoders_reset ())
             {
-                v_state++;
+
             }
             break;
     */  ///
              // / Perform no action - stay in this case until the OpMode is stopped.
         // This method will still be called regardless of the state machine.
         //
-        default:
-            //
-            // The autonomous actions have been accomplished (i.e. the state has
-            // transitioned into its final state.
-            //
-            break;
-        }
+
+
+
+
+
+
 
         //
         // Send telemetry data to the driver station.
         //
-        update_telemetry (); // Update common telemetry
-        telemetry.addData ("18", "State: " + v_state);
+
+
 
     } // loop
 
