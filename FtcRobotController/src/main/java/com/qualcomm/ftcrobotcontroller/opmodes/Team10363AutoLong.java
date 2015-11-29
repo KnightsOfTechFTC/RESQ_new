@@ -7,8 +7,6 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
-import static java.lang.Thread.sleep;
-
 /**
  * Provide a basic autonomous operational mode that uses the left and right
  * drive motors and associated encoders implemented using a state machine for
@@ -142,18 +140,21 @@ public class Team10363AutoLong extends PushBotTelemetry
                 //
                 // Transition to the next state when this method is called
                 // again.
-
+                m_hand_position(1);
+                m_hand_position(0);
                 v_state++;
             }
             break;
         //
         // Wait...
         //
-        case 2:
-                set_drive_power(0.0f,-0.5f);
-                if (anti_have_drive_encoders_reached(10084,9724)) {
+     /*   case 2:
+                set_drive_power(-0.5f, 0.0f);
+                if (anti_have_drive_encoders_reached(9724,10084)) {
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
+                    m_hand_position(1);
+                    m_hand_position(0);
                 }
 
             break;
@@ -161,23 +162,29 @@ public class Team10363AutoLong extends PushBotTelemetry
             case 3:
 
                     set_drive_power(0.5f,0.5f);
-                    if (have_drive_encoders_reached(10804,10084)) {
-                        set_drive_power(0.0f, 0.0f);
+                    if (have_drive_encoders_reached(10444,10804)) {
+                        set_drive_power(0.0f,0.0f);
                         v_state++;
-
+                        m_hand_position(1);
+                        m_hand_position(0);
                 }
                 break;
             case 4:
 
             m_holder_position(1);
                 v_state++;
-
+                m_hand_position(1);
+                m_hand_position(0);
             break;
             case 5:
-                double timeToWaitFor = System.currentTimeMillis() + 1000;
-                while (timeToWaitFor > System.currentTimeMillis()) {}
-                set_drive_power(-0.5f, -0.5f);
-                if (anti_have_drive_encoders_reached(10084,9724)) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                set_drive_power(-0.5f,-0.5f);
+                if (anti_have_drive_encoders_reached(9724,10084)) {
                     set_drive_power(0.0f,0.0f);
                     v_state++;
                     m_hand_position(1);
@@ -188,8 +195,11 @@ public class Team10363AutoLong extends PushBotTelemetry
 
                 m_holder_position(0);
                 m_hand_position(1);
-                double timeToWaitFor2 = System.currentTimeMillis() + 1000;
-                while (timeToWaitFor2 > System.currentTimeMillis()) {}
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 m_hand_position(0);
                    v_state++;
 
