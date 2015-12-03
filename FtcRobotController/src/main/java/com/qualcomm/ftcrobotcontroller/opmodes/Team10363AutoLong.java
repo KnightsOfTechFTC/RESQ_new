@@ -109,7 +109,7 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         // Drive forward until the encoders exceed the specified values.
         //
-        case 1:
+        case 1://straight towards floor goal
             //
             // Tell the system that motor encoders will be used.  This call MUST
             // be in this state and NOT the previous or the encoders will not
@@ -137,8 +137,7 @@ public class Team10363AutoLong extends PushBotTelemetry
                 //
                 // Stop the motors.
                 //
-
-
+                reset_drive_encoders();
                 //
                 // Transition to the next state when this method is called
                 // again.
@@ -149,25 +148,30 @@ public class Team10363AutoLong extends PushBotTelemetry
         //
         // Wait...
         //
-        case 2:
-                set_drive_power(0.0f,-0.5f);
-                if (anti_have_drive_encoders_reached(10804,10084)) {
+        case 2://right wheel backwards
+            if (have_drive_encoders_reset()) {
+                set_drive_power(0.0f, -0.5f);
+                //if (anti_have_drive_encoders_reached(10804, 10084)) {
+                if (anti_have_drive_encoders_reached(0,-720)){
                     set_drive_power(0.0f, 0.0f);
+                    reset_drive_encoders();
                     v_state++;
                 }
-
+            }
             break;
 
-            case 3:
-
+            case 3://go towards bin
+                if (have_drive_encoders_reset()){
                     set_drive_power(0.5f,0.5f);
-                    if (have_drive_encoders_reached(11524,10804)) {
+                    if (have_drive_encoders_reached(2160,2160)){
+                    //if (have_drive_encoders_reached(11524,10804)) {
                         set_drive_power(0.0f, 0.0f);
+                        reset_drive_encoders();
                         v_state++;
 
-                }
+                }}
                 break;
-            case 4:
+            case 4://drop
                 m_holder_position(0);
                 int x=0;
                 while (x<=10)
@@ -178,29 +182,35 @@ public class Team10363AutoLong extends PushBotTelemetry
                 v_state++;
 
             break;
-            case 5:
+            case 5://
                 double timeToWaitFor = System.currentTimeMillis() + 3000; while (timeToWaitFor > System.currentTimeMillis()) {}
+                if (have_drive_encoders_reset()){
                 set_drive_power(-0.5f, -0.5f);
-                if (anti_have_drive_encoders_reached(11344,10624)) {
+                if (anti_have_drive_encoders_reached(1440,1440)) {
                     set_drive_power(0.0f,0.0f);
+                    reset_drive_encoders();
                     v_state++;
                     m_hand_position(1);
                     m_hand_position(0);
-                }
+                }}
                 break;
             case 6:
+                if (have_drive_encoders_reset()){
 
                 m_holder_position(0);
                 m_hand_position(1);
                 double timeToWaitFor2 = System.currentTimeMillis() + 1000;
                 while (timeToWaitFor2 > System.currentTimeMillis()) {}
                 m_hand_position(0);
-                set_drive_power(0.5f,0.5f);
-                if (have_drive_encoders_reached(11524,10804)) {
+                set_drive_power(0.5f, 0.5f);
+                if (have_drive_encoders_reached(1440,1440)) {
                     set_drive_power(0.0f,0.0f);
 
                     v_state++;
                 }
+                if (!have_drive_encoders_reset()) {
+                    reset_drive_encoders();
+                }}
 
 
 
