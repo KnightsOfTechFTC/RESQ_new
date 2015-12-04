@@ -88,7 +88,7 @@ public class Team10363AutoLong extends PushBotTelemetry
         //----------------------------------------------------------------------
         //
         // State: Initialize (i.e. state_0).
-        //
+
         switch (v_state)
         {
         //
@@ -110,12 +110,14 @@ public class Team10363AutoLong extends PushBotTelemetry
         // Drive forward until the encoders exceed the specified values.
         //
         case 1://straight towards floor goal
+
             //
             // Tell the system that motor encoders will be used.  This call MUST
             // be in this state and NOT the previous or the encoders will not
             // work.  It doesn't need to be in subsequent states.
             //
             run_using_encoders ();
+
 
             //
             // Start the drive wheel motors at full power.
@@ -131,13 +133,16 @@ public class Team10363AutoLong extends PushBotTelemetry
             if (have_drive_encoders_reached (10804, 10804))
             {
                 //
-                set_drive_power (0.0f, 0.0f);// Reset the encoders to ensure they are at a known good value.
+                // Reset the encoders to ensure they are at a known good value.
                 //
 
                 //
                 // Stop the motors.
                 //
-                reset_drive_encoders();
+                set_drive_power (0.0f, 0.0f);
+
+                left_encoder_pos=a_left_encoder_count();
+                right_encoder_pos=a_right_encoder_count();
                 //
                 // Transition to the next state when this method is called
                 // again.
@@ -149,27 +154,36 @@ public class Team10363AutoLong extends PushBotTelemetry
         // Wait...
         //
         case 2://right wheel backwards
-            if (have_drive_encoders_reset()) {
-                set_drive_power(0.0f, -0.5f);
-                //if (anti_have_drive_encoders_reached(10804, 10084)) {
-                if (anti_have_drive_encoders_reached(0,-720)){
-                    set_drive_power(0.0f, 0.0f);
-                    reset_drive_encoders();
-                    v_state++;
+             // Update common telemetry
+
+            update_telemetry ();
+            telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
+            telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
+            set_drive_power(0.0f,-0.5f);
+            if (anti_have_drive_encoders_reached(left_encoder_pos,right_encoder_pos-1440)) {
+                set_drive_power(0.0f, 0.0f);
+
+                left_encoder_pos=a_left_encoder_count();
+                right_encoder_pos=a_right_encoder_count();
+
+                v_state++;
                 }
-            }
+
             break;
 
             case 3://go towards bin
-                if (have_drive_encoders_reset()){
-                    set_drive_power(0.5f,0.5f);
-                    if (have_drive_encoders_reached(2160,2160)){
-                    //if (have_drive_encoders_reached(11524,10804)) {
+                update_telemetry ();
+                telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
+                telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
+                set_drive_power(0.5f,0.5f);
+                if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
                         set_drive_power(0.0f, 0.0f);
-                        reset_drive_encoders();
-                        v_state++;
 
-                }}
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
+
+                        v_state++;
+                }
                 break;
             case 4://drop
                 m_holder_position(0);
@@ -183,19 +197,22 @@ public class Team10363AutoLong extends PushBotTelemetry
 
             break;
             case 5://
-                double timeToWaitFor = System.currentTimeMillis() + 3000; while (timeToWaitFor > System.currentTimeMillis()) {}
-                if (have_drive_encoders_reset()){
+                double timeToWaitFor = System.currentTimeMillis() + 3000;
+                while (timeToWaitFor > System.currentTimeMillis()) {}
                 set_drive_power(-0.5f, -0.5f);
-                if (anti_have_drive_encoders_reached(1440,1440)) {
+
+                if (anti_have_drive_encoders_reached(left_encoder_pos-1440,right_encoder_pos-1440)) {
                     set_drive_power(0.0f,0.0f);
-                    reset_drive_encoders();
+
+                    left_encoder_pos=a_left_encoder_count();
+                    right_encoder_pos=a_right_encoder_count();
+
                     v_state++;
                     m_hand_position(1);
                     m_hand_position(0);
-                }}
+                }
                 break;
             case 6:
-                if (have_drive_encoders_reset()){
 
                 m_holder_position(0);
                 m_hand_position(1);
@@ -203,14 +220,14 @@ public class Team10363AutoLong extends PushBotTelemetry
                 while (timeToWaitFor2 > System.currentTimeMillis()) {}
                 m_hand_position(0);
                 set_drive_power(0.5f, 0.5f);
-                if (have_drive_encoders_reached(1440,1440)) {
+                if (have_drive_encoders_reached(left_encoder_pos+720,right_encoder_pos+720)) {
                     set_drive_power(0.0f,0.0f);
 
                     v_state++;
                 }
                 if (!have_drive_encoders_reset()) {
                     reset_drive_encoders();
-                }}
+                }
 
 
 
@@ -289,5 +306,7 @@ public class Team10363AutoLong extends PushBotTelemetry
      * a state machine for the loop method.
      */
     private int v_state = 0;
+    private double left_encoder_pos = 0;
+    private double right_encoder_pos = 0;
 
 } // PushBotAuto
