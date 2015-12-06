@@ -34,7 +34,7 @@ public class PushBotHardware extends OpMode
      *
      * The system calls this member when the class is instantiated.
      */
-    public PushBotHardware ()
+    public PushBotHardware()
 
     {
         //
@@ -47,6 +47,7 @@ public class PushBotHardware extends OpMode
         //
         // All via self-construction.
 
+        this.v_servo_left_arm = v_servo_left_arm;
     } // PushBotHardware
 
     //--------------------------------------------------------------------------
@@ -126,6 +127,8 @@ public class PushBotHardware extends OpMode
         // hand should be halfway opened/closed.
         //
         double l_hand_position = 0.5;
+        double l_right_bucket_rotate_position =.1;
+        double l_left_bucket_rotate_position = .9;
 double l_holder_position = 0;
         try
         {
@@ -164,6 +167,34 @@ try
 
             v_servo_right_hand = null;
         }
+        try
+        {
+            v_servo_right_bucket_rotate = hardwareMap.servo.get ("right_bucket_rotate");
+
+            v_servo_right_bucket_rotate.setPosition (l_right_bucket_rotate_position);
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("right_bucket_rotate");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_servo_right_bucket_rotate = null;
+        }
+
+        try
+        {
+            v_servo_left_bucket_rotate = hardwareMap.servo.get ("left_bucket_rotate");
+
+            v_servo_left_bucket_rotate.setPosition (l_left_bucket_rotate_position);
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("left_bucket_rotate");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_servo_left_bucket_rotate = null;
+        }
+
 
     } // init
 
@@ -220,6 +251,98 @@ try
 
     //--------------------------------------------------------------------------
     //
+    //--------------------------------------------------------------------------
+    //
+    double a_right_bucket_rotate_position ()
+    {
+        double l_return = 0.0;
+
+        if (v_servo_right_bucket_rotate != null)
+        {
+            l_return = v_servo_right_bucket_rotate.getPosition ();
+        }
+
+        return l_return;
+
+    } // a_holder_position
+
+    //--------------------------------------------------------------------------
+    //
+    // m_holder_position
+    //
+    /**
+     * Mutate the holder servo's position.
+     */
+    void m_right_bucket_rotate_position (double p_position)
+    {
+        //
+        // Ensure the specific value is legal.
+        //
+        double l_position = Range.clip
+                ( p_position
+
+                        , 0
+                        , .55
+                );
+
+
+        if (v_servo_right_bucket_rotate != null)
+        {
+            v_servo_right_bucket_rotate.setPosition (l_position);
+        }
+
+
+
+    } // m_holder_position
+
+    // a_holder_position
+    //
+    /**
+     * Access the holder servo's position.
+     */
+    double a_left_bucket_rotate_position ()
+    {
+        double l_return = 0.0;
+
+        if (v_servo_left_bucket_rotate != null)
+        {
+            l_return = v_servo_left_bucket_rotate.getPosition ();
+        }
+
+        return l_return;
+
+    } // a_holder_position
+
+    //--------------------------------------------------------------------------
+    //
+    // m_holder_position
+    //
+    /**
+     * Mutate the holder servo's position.
+     */
+    void m_left_bucket_rotate_position (double p_position)
+    {
+        //
+        // Ensure the specific value is legal.
+        //
+        double l_position = Range.clip
+                ( p_position
+
+                        , .45
+                        , 1
+                );
+
+
+        if (v_servo_left_bucket_rotate != null)
+        {
+            v_servo_left_bucket_rotate.setPosition (l_position);
+        }
+
+
+
+    } // m_holder_position
+
+    // start
      //--------------------------------------------------------------------------
     //
     // a_holder_position
@@ -1122,6 +1245,8 @@ boolean anti_have_drive_encoders_reached
      * Manage the aspects of the left hand servo.
      */
     private Servo v_servo_left_hand;
+    private Servo v_servo_left_bucket_rotate;
+    private Servo v_servo_right_bucket_rotate;
 
     //--------------------------------------------------------------------------
     //
@@ -1131,7 +1256,9 @@ boolean anti_have_drive_encoders_reached
      * Manage the aspects of the right hand servo.
      */
     private Servo v_servo_right_hand;
+
 private  Servo v_servo_left_arm;
 private  Servo v_servo_right_arm;
 private  Servo v_servo_holder;
+
 } // PushBotHardware
