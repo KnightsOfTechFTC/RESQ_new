@@ -435,7 +435,7 @@ try
         double l_position = Range.clip
                 ( p_position
 
-                        , .4
+                        , .3
                         , 1
                 );
 
