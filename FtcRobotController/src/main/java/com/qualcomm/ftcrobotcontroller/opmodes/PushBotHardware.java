@@ -129,6 +129,7 @@ public class PushBotHardware extends OpMode
         double l_hand_position = 0.5;
         double l_right_bucket_rotate_position =.1;
         double l_left_bucket_rotate_position = .9;
+        double l_right_flip_position=.6;
 double l_holder_position = 0;
         try
         {
@@ -154,6 +155,19 @@ try
             DbgLog.msg (p_exeception.getLocalizedMessage ());
 
             v_servo_holder = null;
+        }
+        try
+        {
+            v_servo_right_flip = hardwareMap.servo.get ("right_flip");
+
+            v_servo_holder.setPosition (l_right_flip_position);
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("right_flip");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_servo_right_flip = null;
         }
         try
         {
@@ -383,9 +397,52 @@ try
                 );
 
 
-        if (v_servo_holder != null)
+        if (v_servo_holder != null) {v_servo_holder.setPosition(l_position);}}
+
+
+        //--------------------------------------------------------------------------
+        //
+        // a_holder_position
+        //
+        /**
+         * Access the holder servo's position.
+         */
+    double a_right_flip_position ()
+    {
+        double l_return = 0.0;
+
+        if (v_servo_right_flip != null)
         {
-            v_servo_holder.setPosition (l_position);
+            l_return = v_servo_right_flip.getPosition ();
+        }
+
+        return l_return;
+
+    } // a_holder_position
+
+    //--------------------------------------------------------------------------
+    //
+    // m_holder_position
+    //
+    /**
+     * Mutate the holder servo's position.
+     */
+    void m_right_flip_position (double p_position)
+    {
+        //
+        // Ensure the specific value is legal.
+        //
+        double l_position = Range.clip
+                ( p_position
+
+                        , .4
+                        , 1
+                );
+
+
+        if (v_servo_right_flip != null)
+        {
+            v_servo_right_flip.setPosition (l_position);
         }
 
 
@@ -1256,6 +1313,7 @@ boolean anti_have_drive_encoders_reached
      * Manage the aspects of the right hand servo.
      */
     private Servo v_servo_right_hand;
+    private Servo v_servo_right_flip;
 
 private  Servo v_servo_left_arm;
 private  Servo v_servo_right_arm;
