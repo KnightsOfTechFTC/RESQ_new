@@ -100,6 +100,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // Start the drive wheel motors at half power.
                 //
                 set_drive_power (.5f, .5f);
+                m_holder_position(.4);
 
                 //
                 // Have the motor shafts turned the required amount?
@@ -136,7 +137,8 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
                 //Set the right wheel backwards
-                set_drive_power(0.0f,-0.5f);
+                set_drive_power(-0.5f,0.0f);
+                m_holder_position(.6);
                 //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
                 if (anti_have_drive_encoders_reached(left_encoder_pos-1200,right_encoder_pos)) {
                     set_drive_power(0.0f, 0.0f);
@@ -167,7 +169,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
 
                 try {
-                    m_holder_position(1);
+                    m_holder_position(.7);
                     sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -181,7 +183,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 left_encoder_pos=a_left_encoder_count();
                 right_encoder_pos=a_right_encoder_count();
                 //Since the normal wait code had weird problems, this essentially does the same thing except with sleep
-                if (a_holder_position()==1){v_state++;}
+                if (a_holder_position()>=.6 && a_holder_position()<= .8){v_state++;}
                 //double timeToWaitFor = System.currentTimeMillis() + 3000;
                 //while (timeToWaitFor > System.currentTimeMillis()) {}
 

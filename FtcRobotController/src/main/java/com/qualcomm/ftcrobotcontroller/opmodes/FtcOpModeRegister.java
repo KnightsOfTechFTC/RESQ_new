@@ -66,6 +66,7 @@ manager.register ("Team10363AutoLongBlue", Team10363AutoLongBlue.class);
     manager.register ("Team10363AutoLongRed", Team10363AutoLongRed.class);
 manager.register ("Team10363AutoShort", Team10363AutoShort.class);
 manager.register ("Team10363Manual", PushBotManual.class);
+      manager.register ("Team10363AutoLongStraight", Team10363AutoLongStraight.class);
     /*
      * Uncomment any of the following lines if you want to register an op mode.
      */

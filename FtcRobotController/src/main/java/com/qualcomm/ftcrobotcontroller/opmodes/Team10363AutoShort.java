@@ -59,7 +59,7 @@ public class Team10363AutoShort extends PushBotTelemetry
         //
 
 
-        GyroSensor sensorGyro;
+       /* GyroSensor sensorGyro;
         int xVal, yVal, zVal = 0;
         int heading = 0;
 
@@ -72,7 +72,7 @@ public class Team10363AutoShort extends PushBotTelemetry
 
         // calibrate the gyro.
         sensorGyro.calibrate();
-        //
+       */ //
         // Reset the motor encoders on the drive wheels.
         //
         reset_drive_encoders ();

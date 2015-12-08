@@ -118,9 +118,6 @@ public class Team10363AutoLongStraight extends PushBotTelemetry {
                     //
                     set_drive_power (0.0f, 0.0f);
 
-                    left_encoder_pos=a_left_encoder_count();
-                    right_encoder_pos=a_right_encoder_count();
-                    //
                     // Transition to the next state when this method is called
                     // again.
 
@@ -128,41 +125,7 @@ public class Team10363AutoLongStraight extends PushBotTelemetry {
                 }
                 break;
             //
-            // Wait...
-            //
-            case 2:
-                // Update common telemetry
-                update_telemetry ();
-                telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
-                telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                //Set the right wheel backwards
-                set_drive_power(0.0f,-0.5f);
-                //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
-                if (anti_have_drive_encoders_reached(left_encoder_pos,right_encoder_pos-1200)) {
-                    set_drive_power(0.0f, 0.0f);
 
-                    left_encoder_pos=a_left_encoder_count();
-                    right_encoder_pos=a_right_encoder_count();
-
-                    v_state++;
-                }
-
-                break;
-
-            case 3://Go towards the bin
-                update_telemetry ();
-                telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
-                telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                set_drive_power(0.5f,0.5f);
-
-                if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
-                    set_drive_power(0.0f, 0.0f);
-                    left_encoder_pos=a_left_encoder_count();
-                    right_encoder_pos=a_right_encoder_count();
-
-                    v_state++;
-                }
-                break;
 
                 // Turn left until the encoders exceed the specified values.
                 //
