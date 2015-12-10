@@ -65,7 +65,6 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
         //----------------------------------------------------------------------
         //
         // State: Initialize (i.e. state_0).
-        dirt = true;
         switch (v_state)
         {
             //
@@ -108,7 +107,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (10804, 10804))
+                if (have_drive_encoders_reached (10450, 10450))
                 {
                     //
                     // Reset the encoders to ensure they are at a known good value.
@@ -139,7 +138,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 //Set the right wheel backwards
                 set_drive_power(-0.5f,0.0f);
                 m_holder_position(.6);
-                //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
+                //Same as before, but with the left wheel backwards and a little bit of extra goodness to prevent any bugs
                 if (anti_have_drive_encoders_reached(left_encoder_pos-1200,right_encoder_pos)) {
                     set_drive_power(0.0f, 0.0f);
 
@@ -156,6 +155,8 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
                 set_drive_power(0.5f,0.5f);
+                m_holder_position(.6);
+
 
                 if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
                     set_drive_power(0.0f, 0.0f);
@@ -167,13 +168,13 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 break;
             case 4://Drop the servos holding the climbers
 
+                m_holder_position(.7);
 
-                try {
-                    m_holder_position(.7);
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        //        try {
+        //            sleep(1000);
+        //        } catch (InterruptedException e) {
+        //            e.printStackTrace();
+        //        }
                 //int x=0;
                 //while (x<=10)
                 //{
@@ -183,7 +184,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 left_encoder_pos=a_left_encoder_count();
                 right_encoder_pos=a_right_encoder_count();
                 //Since the normal wait code had weird problems, this essentially does the same thing except with sleep
-                if (a_holder_position()>=.6 && a_holder_position()<= .8){v_state++;}
+                if (a_holder_position()>=.61 && a_holder_position()<= .8){v_state++;}
                 //double timeToWaitFor = System.currentTimeMillis() + 3000;
                 //while (timeToWaitFor > System.currentTimeMillis()) {}
 
@@ -200,19 +201,18 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                     right_encoder_pos=a_right_encoder_count();
                     //double timeToWaitFor2 = System.currentTimeMillis() + 1000;
                     //while (timeToWaitFor2 > System.currentTimeMillis()) {}
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+         //           try {
+         //               sleep(1000);
+         //           } catch (InterruptedException e) {
+         //               e.printStackTrace();
+         //           }
                     //v_state++;
-                    try {
-                        m_holder_position(0);
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    dirt = false;
+         //           try {
+         //               m_holder_position(0);
+         //               sleep(1000);
+         //           } catch (InterruptedException e) {
+         //               e.printStackTrace();
+         //           }
                     v_state++;
                     //m_hand_position(1);
                     //m_hand_position(0);
@@ -222,9 +222,9 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
 
 
-                update_telemetry ();
-                telemetry.addData("21", "LeftEncoderPos: " + left_encoder_pos);
-                telemetry.addData("22", "RightEncoderPos: " + right_encoder_pos);
+         //       update_telemetry ();
+         //       telemetry.addData("21", "LeftEncoderPos: " + left_encoder_pos);
+         //       telemetry.addData("22", "RightEncoderPos: " + right_encoder_pos);
                 //m_hand_position(1);
                 //m_hand_position(0);
 
@@ -325,6 +325,5 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
     private int v_state = 0;
     private double left_encoder_pos = 0;
     private double right_encoder_pos = 0;
-    private boolean dirt = true;
 } // PushBotAuto
 
