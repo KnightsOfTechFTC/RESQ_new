@@ -1,12 +1,10 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import static java.lang.Thread.sleep;
-
 /**
  * Created by Lego5 on 12/6/2015.
  */
-public class Team10363AutoLongRed extends PushBotTelemetry {
-    public Team10363AutoLongRed ()
+public class Team10363AutoShortRed extends PushBotTelemetry {
+    public Team10363AutoShortRed()
 
     {
         //
@@ -107,7 +105,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (10250, 10250))
+                if (have_drive_encoders_reached (7600, 7600))
                 {
                     //
                     // Reset the encoders to ensure they are at a known good value.
@@ -138,7 +136,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 //Set the right wheel backwards
                 set_drive_power(-0.5f,0.0f);
                 //Same as before, but with the left wheel backwards and a little bit of extra goodness to prevent any bugs
-                if (anti_have_drive_encoders_reached(left_encoder_pos-1200,right_encoder_pos)) {
+                if (anti_have_drive_encoders_reached(left_encoder_pos-1500,right_encoder_pos)) {
                     set_drive_power(0.0f, 0.0f);
 
                     left_encoder_pos=a_left_encoder_count();

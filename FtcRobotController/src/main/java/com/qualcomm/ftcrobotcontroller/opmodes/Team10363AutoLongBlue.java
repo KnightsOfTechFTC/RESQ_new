@@ -177,7 +177,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                set_drive_power(0.5f,0.5f);
+                set_drive_power(0.2f,0.2f);
                 m_holder_position(.6);
 
                 if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
@@ -213,7 +213,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             break;
             case 5://Go backwards, ensuring that the servos are in the bin
 
-                set_drive_power(-0.5f,-0.5f);
+                set_drive_power(-0.2f,-0.2f);
 
                 if (anti_have_drive_encoders_reached(left_encoder_pos-1440,right_encoder_pos-1440)) {
 
