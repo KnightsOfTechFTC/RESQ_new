@@ -107,7 +107,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (10250, 10250))
+                if (have_drive_encoders_reached (10050, 10050))
                 {
                     //
                     // Reset the encoders to ensure they are at a known good value.
