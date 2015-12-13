@@ -127,8 +127,8 @@ public class PushBotHardware extends OpMode
         // hand should be halfway opened/closed.
         //
         double l_hand_position = 0.5;
-        double l_right_bucket_rotate_position =.1;
-        double l_left_bucket_rotate_position = .9;
+        double l_right_bucket_rotate_position =.5;
+        double l_left_bucket_rotate_position = .5;
         double l_right_flip_position=.6;
 double l_holder_position = 0;
         try
@@ -295,8 +295,8 @@ try
         double l_position = Range.clip
                 ( p_position
 
-                        , 0
-                        , .55
+                        , 0.3
+                        , 0.9
                 );
 
 
@@ -435,7 +435,7 @@ try
         double l_position = Range.clip
                 ( p_position
 
-                        , .3
+                        , 0
                         , 1
                 );
 
