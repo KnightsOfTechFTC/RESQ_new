@@ -131,7 +131,7 @@ public class PushBotHardware extends OpMode
         double l_right_bucket_rotate_position =.5;
         double l_left_bucket_rotate_position = .5;
         double l_right_flip_position=.6;
-double l_holder_position = .2;
+double l_holder_position = .3;
         double l_right_dump_position=1;
         double l_left_dump_position=0;
         try
@@ -465,7 +465,7 @@ try
         double l_position = Range.clip
                 ( p_position
 
-                        , .45
+                        , 0
                         , 1
                 );
 
