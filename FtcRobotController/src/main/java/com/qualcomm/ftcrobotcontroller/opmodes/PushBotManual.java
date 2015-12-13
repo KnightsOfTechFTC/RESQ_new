@@ -89,7 +89,7 @@ public class PushBotManual extends PushBotTelemetry
         if (gamepad2.right_trigger>=.5){m_right_flip_position(1);}
         if (gamepad2.right_bumper){m_right_flip_position(0);}
         if (gamepad2.left_trigger>=.5){m_left_flip_position(1);}
-
+        if (gamepad2.left_bumper){m_left_flip_position(0);}
   // Manage the holder servo
 
         if (gamepad2.dpad_up) {
