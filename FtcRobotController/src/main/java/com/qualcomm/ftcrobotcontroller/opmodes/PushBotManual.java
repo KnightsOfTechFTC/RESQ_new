@@ -85,7 +85,7 @@ public class PushBotManual extends PushBotTelemetry
         m_left_bucket_rotate_position(a_left_bucket_rotate_position()+((gamepad2.left_stick_y)*.05));
         m_right_bucket_rotate_position(a_right_bucket_rotate_position()+((gamepad2.right_stick_y)*.05));
         m_left_dump_position(a_left_dump_position()+((gamepad2.left_stick_x)*.05));
-        m_right_dump_position(a_right_dump_position()+((gamepad2.left_stick_y)*.05));
+        m_right_dump_position(a_right_dump_position()+((gamepad2.right_stick_x)*.05));
         if (gamepad2.right_trigger>=.5){m_right_flip_position(1);}
         if (gamepad2.right_bumper){m_right_flip_position(0);}
         if (gamepad2.left_trigger>=.5){m_left_flip_position(1);}
