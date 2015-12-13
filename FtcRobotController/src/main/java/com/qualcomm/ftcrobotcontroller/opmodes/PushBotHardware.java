@@ -128,7 +128,7 @@ public class PushBotHardware extends OpMode
         //
         double l_left_flip_position=.6;
         double l_hand_position = 0.5;
-        double l_right_bucket_rotate_position =.5;
+        double l_right_bucket_rotate_position =.7;
         double l_left_bucket_rotate_position = .5;
         double l_right_flip_position=.6;
 double l_holder_position = .3;
@@ -418,8 +418,8 @@ try
         double l_position = Range.clip
                 ( p_position
 
-                        , 0.3
-                        , 0.9
+                        , 0
+                        , 1
                 );
 
 
