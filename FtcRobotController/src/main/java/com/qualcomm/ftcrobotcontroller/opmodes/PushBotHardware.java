@@ -108,17 +108,16 @@ public class PushBotHardware extends OpMode
         //
         // Connect the arm motor.
         //
-        try
-        {
-            v_motor_left_arm = hardwareMap.dcMotor.get ("left_arm");
-        }
-        catch (Exception p_exeception)
-        {
-            m_warning_message ("left_arm");
-            DbgLog.msg (p_exeception.getLocalizedMessage ());
-
-            v_motor_left_arm = null;
-        }
+     //   try
+     //   {
+     //       v_motor_left_arm = hardwareMap.dcMotor.get ("left_arm");
+     //   }
+     //   catch (Exception p_exeception)
+     //   {
+     //       m_warning_message ("left_arm");
+     //       DbgLog.msg (p_exeception.getLocalizedMessage ());
+     //       v_motor_left_arm = null;
+     //   }
 
         //
         // Connect the servo motors.
@@ -128,12 +127,13 @@ public class PushBotHardware extends OpMode
         //
         double l_left_flip_position=.6;
         double l_hand_position = 0.5;
-        double l_right_bucket_rotate_position =.7;
-        double l_left_bucket_rotate_position = .5;
+        double l_right_bucket_rotate_position = 1;
+        double l_left_bucket_rotate_position = .4;
         double l_right_flip_position=.6;
-double l_holder_position = .3;
+        double l_holder_position = 0;
         double l_right_dump_position=1;
         double l_left_dump_position=0;
+
         try
         {
             v_servo_left_hand = hardwareMap.servo.get ("left_hand");
@@ -146,10 +146,10 @@ double l_holder_position = .3;
 
             v_servo_left_hand = null;
         }
-try
+
+        try
         {
             v_servo_holder = hardwareMap.servo.get ("holder");
-
             v_servo_holder.setPosition (l_holder_position);
         }
         catch (Exception p_exeception)
@@ -159,10 +159,10 @@ try
 
             v_servo_holder = null;
         }
+
         try
         {
             v_servo_left_dump = hardwareMap.servo.get ("left_dump");
-
             v_servo_left_dump.setPosition (l_left_dump_position);
         }
         catch (Exception p_exeception)
@@ -175,12 +175,11 @@ try
         try
         {
             v_servo_right_dump = hardwareMap.servo.get ("right_dump");
-
             v_servo_right_dump.setPosition (l_right_dump_position);
         }
         catch (Exception p_exeception)
         {
-            m_warning_message ("right_flip");
+            m_warning_message ("right_dump");
             DbgLog.msg (p_exeception.getLocalizedMessage ());
 
             v_servo_right_dump = null;
@@ -188,7 +187,6 @@ try
         try
         {
             v_servo_right_flip = hardwareMap.servo.get ("right_flip");
-
             v_servo_right_flip.setPosition (l_right_flip_position);
         }
         catch (Exception p_exeception)
@@ -201,7 +199,6 @@ try
         try
         {
             v_servo_left_flip = hardwareMap.servo.get ("left_flip");
-
             v_servo_left_flip.setPosition (l_left_flip_position);
         }
         catch (Exception p_exeception)
@@ -226,7 +223,6 @@ try
         try
         {
             v_servo_right_bucket_rotate = hardwareMap.servo.get ("right_bucket_rotate");
-
             v_servo_right_bucket_rotate.setPosition (l_right_bucket_rotate_position);
         }
         catch (Exception p_exeception)
@@ -240,7 +236,6 @@ try
         try
         {
             v_servo_left_bucket_rotate = hardwareMap.servo.get ("left_bucket_rotate");
-
             v_servo_left_bucket_rotate.setPosition (l_left_bucket_rotate_position);
         }
         catch (Exception p_exeception)
@@ -303,19 +298,23 @@ try
         v_warning_message += p_exception_message;
 
     }// m_warning_message
-    double a_right_bucket_rotate_position ()
+
+    //--------------------------------------------------------------------------
+    //
+    //--------------------------------------------------------------------------
+    //
+    double a_left_dump_position ()
     {
         double l_return = 0.0;
 
-        if (v_servo_right_bucket_rotate != null)
+        if (v_servo_left_dump != null)
         {
-            l_return = v_servo_right_bucket_rotate.getPosition ();
+            l_return = v_servo_left_dump.getPosition ();
         }
 
         return l_return;
 
     } // a_holder_position
-
     //--------------------------------------------------------------------------
     //
     // m_holder_position
@@ -336,38 +335,22 @@ try
                 );
 
 
-        if (v_servo_right_bucket_rotate != null)
+        if (v_servo_left_dump != null)
         {
-            v_servo_right_bucket_rotate.setPosition (l_position);
+            v_servo_left_dump.setPosition (l_position);
         }
 
 
 
     }
 
-    //--------------------------------------------------------------------------
-    //
-    //--------------------------------------------------------------------------
-    //
-    double a_left_dump_position ()
-    {
-        double l_return = 0.0;
-
-        if (v_servo_left_dump != null)
-        {
-            l_return = v_servo_left_dump.getPosition ();
-        }
-
-        return l_return;
-
-    } // a_holder_position
     double a_right_dump_position ()
     {
         double l_return = 0.0;
 
-        if (v_servo_right_bucket_rotate != null)
+        if (v_servo_right_dump != null)
         {
-            l_return = v_servo_right_bucket_rotate.getPosition ();
+            l_return = v_servo_right_dump.getPosition ();
         }
 
         return l_return;
@@ -403,10 +386,27 @@ try
 
     }
 
+
+
     //--------------------------------------------------------------------------
     //
     // m_holder_position
     //
+    double a_right_bucket_rotate_position ()
+    {
+        double l_return = 0.0;
+
+        if (v_servo_right_bucket_rotate != null)
+        {
+            l_return = v_servo_right_bucket_rotate.getPosition ();
+        }
+
+        return l_return;
+
+    } // a_holder_position
+
+
+
     /**
      * Mutate the holder servo's position.
      */
@@ -520,7 +520,8 @@ try
                 );
 
 
-        if (v_servo_holder != null) {v_servo_holder.setPosition(l_position);}}
+        if (v_servo_holder != null) {v_servo_holder.setPosition(l_position);}
+    }
 
 
         //--------------------------------------------------------------------------
@@ -569,10 +570,8 @@ try
             v_servo_right_flip.setPosition (l_position);
         }
 
-
-
-
     }
+
     double a_left_flip_position ()
     {
         double l_return = 0.0;
