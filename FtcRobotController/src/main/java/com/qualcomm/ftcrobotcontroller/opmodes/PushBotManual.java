@@ -71,11 +71,18 @@ public class PushBotManual extends PushBotTelemetry
         // class, but the power levels aren't applied until this method ends.
         //
 
+        //This is a slow button. It makes it slow.
+
+        boolean slow = false;
+        if(gamepad1.left_bumper){slow=true;}
+
         //
         // Manage the drive wheel motors.
         //
-        float l_left_drive_power = scale_motor_power (-gamepad1.left_stick_y);
-        float l_right_drive_power = scale_motor_power (-gamepad1.right_stick_y);
+        float scale = 1;
+        if(slow){scale = 0.4f;}
+        float l_left_drive_power = scale_motor_power (-gamepad1.left_stick_y*scale);
+        float l_right_drive_power = scale_motor_power (-gamepad1.right_stick_y*scale);
 
         set_drive_power (l_left_drive_power, l_right_drive_power);
 
@@ -86,13 +93,14 @@ public class PushBotManual extends PushBotTelemetry
         m_right_bucket_rotate_position(a_right_bucket_rotate_position() + ((gamepad2.right_stick_y) * .005));
         m_left_dump_position(a_left_dump_position() - ((gamepad2.left_stick_x) * .005));
         m_right_dump_position(a_right_dump_position() - ((gamepad2.right_stick_x)*.005));
-        if (gamepad2.right_trigger>=.5){m_right_flip_position(1);}
-        if (gamepad2.right_bumper){m_right_flip_position(0);}
-        if (gamepad2.left_trigger>=.5){m_left_flip_position(0);}
-        if (gamepad2.left_bumper){m_left_flip_position(1);}
+        if (gamepad2.right_trigger>=.5){m_right_flip_position(0);}
+        if (gamepad2.right_bumper){m_right_flip_position(1);}
+        if (gamepad2.left_trigger>=.5){m_left_flip_position(1);}
+        if (gamepad2.left_bumper){m_left_flip_position(0);}
         update_telemetry();
         telemetry.addData("18: right_bucket_rotate", a_right_bucket_rotate_position());
         telemetry.addData("81: left_dump_position", a_left_dump_position());
+        telemetry.addData("82: left_bucket_rotate", a_left_bucket_rotate_position());
         telemetry.addData("88: right_dump_position", a_right_dump_position());
   // Manage the holder servo
 

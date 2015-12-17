@@ -122,7 +122,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // Start the drive wheel motors at half power.
             //
             m_holder_position(.4);
-            set_drive_power (.5f, .5f);
+            set_drive_power (.25f, .25f);
 
 
             //
@@ -160,7 +160,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
             telemetry.addData("20", "RightEncoderPos: " + right_encoder_pos);
             //Set the right wheel backwards
-            set_drive_power(0.0f, -0.5f);
+            set_drive_power(0.0f, -0.25f);
             //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
             if (anti_have_drive_encoders_reached(left_encoder_pos,right_encoder_pos-1200)) {
                 set_drive_power(0.0f, 0.0f);

@@ -125,11 +125,11 @@ public class PushBotHardware extends OpMode
         // Indicate the initial position of both the left and right servos.  The
         // hand should be halfway opened/closed.
         //
-        double l_left_flip_position=.6;
+        double l_left_flip_position=.05;
         double l_hand_position = 0.5;
-        double l_right_bucket_rotate_position = .25;
+        double l_right_bucket_rotate_position = .4;
         double l_left_bucket_rotate_position = .9;
-        double l_right_flip_position=.6;
+        double l_right_flip_position=.95;
         double l_holder_position = 0;
         double l_right_dump_position=.5;
         double l_left_dump_position=.5;
@@ -418,7 +418,7 @@ public class PushBotHardware extends OpMode
         double l_position = Range.clip
                 ( p_position
 
-                        , .5
+                        , .4
                         , .9
                 );
 
@@ -466,7 +466,7 @@ public class PushBotHardware extends OpMode
                 ( p_position
 
                         , 0.3
-                        , 0.8
+                        , 0.9
                 );
 
 
