@@ -97,6 +97,18 @@ public class PushBotManual extends PushBotTelemetry
         if (gamepad2.right_bumper){m_right_flip_position(1);}
         if (gamepad2.left_trigger>=.5){m_left_flip_position(1);}
         if (gamepad2.left_bumper){m_left_flip_position(0);}
+        // left bucket collect position
+        if (gamepad2.dpad_down){m_left_bucket_rotate_position(.42); m_left_dump_position(.12);}
+        // right bucket collect position
+        if (gamepad2.a){m_right_bucket_rotate_position(.82); m_right_dump_position(.93);}
+        // left bucket store position
+        if (gamepad2.dpad_up){m_left_bucket_rotate_position(.89); m_left_dump_position(.56);}
+        // right bucket store position
+        if (gamepad2.y){m_right_bucket_rotate_position(.4); m_right_dump_position(.5);}
+        // left bucket dump position
+        if (gamepad2.guide){m_left_bucket_rotate_position(.57); m_left_dump_position(.43);}
+        // right bucket dump position
+        if (gamepad2.start){m_right_bucket_rotate_position(.67); m_right_dump_position(.5);}
         update_telemetry();
         telemetry.addData("18: right_bucket_rotate", a_right_bucket_rotate_position());
         telemetry.addData("81: left_dump_position", a_left_dump_position());
@@ -104,10 +116,10 @@ public class PushBotManual extends PushBotTelemetry
         telemetry.addData("88: right_dump_position", a_right_dump_position());
   // Manage the holder servo
 
-        if (gamepad2.dpad_up) {
+        if (gamepad2.dpad_left) {
             m_holder_position(a_holder_position()+.01);
         }
-        else if (gamepad2.dpad_down) {
+        else if (gamepad2.dpad_right) {
             m_holder_position(a_holder_position()-.01);
         }
         //----------------------------------------------------------------------
