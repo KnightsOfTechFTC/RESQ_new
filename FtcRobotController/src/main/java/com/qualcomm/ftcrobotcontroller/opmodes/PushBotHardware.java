@@ -314,13 +314,13 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_holder_position
+    } // a_left_dump_position
     //--------------------------------------------------------------------------
     //
-    // m_holder_position
+    // m_left_dump_position
     //
     /**
-     * Mutate the holder servo's position.
+     * Mutate the left dump servo's position.
      */
     void m_left_dump_position (double p_position)
     {
@@ -355,14 +355,14 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_holder_position
+    } // a_right_dump_position
 
     //--------------------------------------------------------------------------
     //
-    // m_holder_position
+    // m_right_dump_position
     //
     /**
-     * Mutate the holder servo's position.
+     * Mutate the right dump servo's position.
      */
     void m_right_dump_position (double p_position)
     {
@@ -390,7 +390,7 @@ public class PushBotHardware extends OpMode
 
     //--------------------------------------------------------------------------
     //
-    // m_holder_position
+    // a_right_bucket_rotate_position
     //
     double a_right_bucket_rotate_position ()
     {
@@ -403,12 +403,12 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_holder_position
+    } // a_right_bucket_rotate_position
 
 
 
     /**
-     * Mutate the holder servo's position.
+     * Mutate the right bucket servo's position.
      */
     void m_right_bucket_rotate_position (double p_position)
     {
@@ -430,12 +430,12 @@ public class PushBotHardware extends OpMode
 
 
 
-    } // m_holder_position
+    } // m_right_bucket_rotate_position
 
-    // a_holder_position
+    // a_left_bucket_rotate_position
     //
     /**
-     * Access the holder servo's position.
+     * Access the left bucket servo's position.
      */
     double a_left_bucket_rotate_position ()
     {
@@ -448,14 +448,14 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_holder_position
+    } // a_left_bucket_rotate_position
 
     //--------------------------------------------------------------------------
     //
-    // m_holder_position
+    // m_left_bucket_rotate_position
     //
     /**
-     * Mutate the holder servo's position.
+     * Mutate the left bucket rotate servo's position.
      */
     void m_left_bucket_rotate_position (double p_position)
     {
@@ -477,7 +477,7 @@ public class PushBotHardware extends OpMode
 
 
 
-    } // m_holder_position
+    } // m_left_bucket_rotate_position
 
     // start
      //--------------------------------------------------------------------------
@@ -526,10 +526,10 @@ public class PushBotHardware extends OpMode
 
         //--------------------------------------------------------------------------
         //
-        // a_holder_position
+        // a_right_flip_position
         //
         /**
-         * Access the holder servo's position.
+         * Access the right flip servo's position.
          */
 
     double a_right_flip_position ()
@@ -543,14 +543,14 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_holder_position
+    } // a_right_flip_position
 
     //--------------------------------------------------------------------------
     //
-    // m_holder_position
+    // m_right_flip_position
     //
     /**
-     * Mutate the holder servo's position.
+     * Mutate the right flip servo's position.
      */
     void m_right_flip_position (double p_position)
     {
@@ -570,7 +570,7 @@ public class PushBotHardware extends OpMode
             v_servo_right_flip.setPosition (l_position);
         }
 
-    }
+    } //m_right_flip_position
 
     double a_left_flip_position ()
     {
@@ -583,14 +583,14 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_holder_position
+    } // a_left_flip_position
 
     //--------------------------------------------------------------------------
     //
-    // m_holder_position
+    // m_left_flip_position
     //
     /**
-     * Mutate the holder servo's position.
+     * Mutate the left flip servo's position.
      */
     void m_left_flip_position (double p_position)
     {
@@ -613,7 +613,8 @@ public class PushBotHardware extends OpMode
 
 
 
-    }// m_holder_position
+    }// m_left_flip_position
+
     // start
     //
     /**
