@@ -149,7 +149,7 @@ public class PushBotManual extends PushBotTelemetry
             m_hand_position (a_hand_position () - 0.01);
             m_left_flip_position(a_left_flip_position());
             m_right_flip_position(a_right_flip_position());
-        }
+         }
 
         //
         // Send telemetry data to the driver station.

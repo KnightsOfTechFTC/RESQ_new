@@ -97,7 +97,7 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                 // Start the drive wheel motors at half power.
                 //
                 set_drive_power (.25f, .25f);
-                m_holder_position(.4);
+                m_holder_position(.6);
 
                 //
                 // Have the motor shafts turned the required amount?
@@ -152,7 +152,7 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
                 set_drive_power(0.2f,0.2f);
-                m_holder_position(.6);
+                m_holder_position(.8);
 
 
                 if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
@@ -165,7 +165,7 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                 break;
             case 4://Drop the servos holding the climbers
 
-                m_holder_position(.7);
+                m_holder_position(.9);
 
         //        try {
         //            sleep(1000);
@@ -192,7 +192,7 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
 
                 if (anti_have_drive_encoders_reached(left_encoder_pos-1440,right_encoder_pos-1440)) {
                     set_drive_power(0.0f,0.0f);
-                    m_holder_position(0);
+                    m_holder_position(.3);
 
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
