@@ -140,11 +140,15 @@ public class PushBotManual extends PushBotTelemetry
         //
         if (gamepad2.x)
         {
-            m_hand_position (a_hand_position () + 0.05);
+            m_hand_position (a_hand_position () + 0.01);
+            m_right_flip_position(a_right_flip_position());
+            m_left_flip_position(a_left_flip_position());
         }
         else if (gamepad2.b)
         {
-            m_hand_position (a_hand_position () - 0.05);
+            m_hand_position (a_hand_position () - 0.01);
+            m_left_flip_position(a_left_flip_position());
+            m_right_flip_position(a_right_flip_position());
         }
 
         //

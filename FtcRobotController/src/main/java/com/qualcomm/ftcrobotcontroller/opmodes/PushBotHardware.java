@@ -131,8 +131,8 @@ public class PushBotHardware extends OpMode
         double l_left_bucket_rotate_position = .9;
         double l_right_flip_position=.95;
         double l_holder_position = 0;
-        double l_right_dump_position=.5;
-        double l_left_dump_position=.5;
+        double l_right_dump_position=.43;
+        double l_left_dump_position=.57;
 
         try
         {
@@ -557,11 +557,14 @@ public class PushBotHardware extends OpMode
         //
         // Ensure the specific value is legal.
         //
+        double n_pos=1;
+        if (a_hand_position()<=.7){n_pos=.95;}
+        else {n_pos=1;}
         double l_position = Range.clip
                 ( p_position
 
                         , 0
-                        , 1
+                        , n_pos
                 );
 
 
@@ -597,10 +600,17 @@ public class PushBotHardware extends OpMode
         //
         // Ensure the specific value is legal.
         //
+        double n_pos=1;
+        if (a_hand_position()<=.7){
+            n_pos=.05;
+        }
+        else{
+            n_pos=0;
+        }
         double l_position = Range.clip
                 ( p_position
 
-                        , 0
+                        , n_pos
                         , 1
                 );
 
