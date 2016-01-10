@@ -116,6 +116,8 @@ public class PushBotManual extends PushBotTelemetry
         telemetry.addData("81: left_dump_position", a_left_dump_position());
         telemetry.addData("82: left_bucket_rotate", a_left_bucket_rotate_position());
         telemetry.addData("88: right_dump_position", a_right_dump_position());
+        telemetry.addData("91: right_hand_position",a_right_hand_position());
+        telemetry.addData("92: left_hand_position",a_left_hand_position());
   // Manage the holder servo
 
         if (gamepad2.dpad_left) {
@@ -140,16 +142,25 @@ public class PushBotManual extends PushBotTelemetry
         //
         if (gamepad2.x)
         {
-            m_hand_position (a_hand_position () + 0.01);
-            m_right_flip_position(a_right_flip_position());
+            m_left_hand_position(a_left_hand_position() + 0.01);
+            //m_right_flip_position(a_right_flip_position());
+            m_left_flip_position(a_left_flip_position());
+        } else if (gamepad2.left_stick_button){
+            m_left_hand_position (a_left_hand_position () - 0.01);
+            //m_right_flip_position(a_right_flip_position());
             m_left_flip_position(a_left_flip_position());
         }
-        else if (gamepad2.b)
+        if (gamepad2.b)
         {
-            m_hand_position (a_hand_position () - 0.01);
-            m_left_flip_position(a_left_flip_position());
+            m_right_hand_position (a_right_hand_position () - 0.01);
+            //m_left_flip_position(a_left_flip_position());
             m_right_flip_position(a_right_flip_position());
-         }
+        } else if (gamepad2.right_stick_button){
+            m_right_hand_position (a_right_hand_position () + 0.01);
+            m_right_flip_position(a_right_flip_position());
+            //m_left_flip_position(a_left_flip_position());
+        }
+
 
         //
         // Send telemetry data to the driver station.

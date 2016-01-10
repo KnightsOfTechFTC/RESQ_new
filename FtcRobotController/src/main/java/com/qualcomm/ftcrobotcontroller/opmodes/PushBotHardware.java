@@ -126,6 +126,8 @@ public class PushBotHardware extends OpMode
         // hand should be halfway opened/closed.
         //
         double l_left_flip_position=.05;
+        double l_left_hand_position = 0.5;
+        double l_right_hand_position = 0.5;
         double l_hand_position = 0.5;
         double l_right_bucket_rotate_position = .4;
         double l_left_bucket_rotate_position = .9;
@@ -137,7 +139,7 @@ public class PushBotHardware extends OpMode
         try
         {
             v_servo_left_hand = hardwareMap.servo.get ("left_hand");
-            v_servo_left_hand.setPosition (l_hand_position);
+            v_servo_left_hand.setPosition (l_left_hand_position);
         }
         catch (Exception p_exeception)
         {
@@ -211,7 +213,7 @@ public class PushBotHardware extends OpMode
         try
         {
             v_servo_right_hand = hardwareMap.servo.get ("right_hand");
-            v_servo_right_hand.setPosition (l_hand_position);
+            v_servo_right_hand.setPosition (l_right_hand_position);
         }
         catch (Exception p_exeception)
         {
@@ -558,7 +560,7 @@ public class PushBotHardware extends OpMode
         // Ensure the specific value is legal.
         //
         double n_pos=1;
-        if (a_hand_position()<=.7){n_pos=.95;}
+        if (a_right_hand_position()>=.3){n_pos=.95;}
         else {n_pos=1;}
         double l_position = Range.clip
                 ( p_position
@@ -601,7 +603,7 @@ public class PushBotHardware extends OpMode
         // Ensure the specific value is legal.
         //
         double n_pos=1;
-        if (a_hand_position()<=.7){
+        if (a_left_hand_position()<=.7){
             n_pos=.05;
         }
         else{
@@ -1355,6 +1357,30 @@ boolean anti_have_drive_encoders_reached
     /**
      * Access the hand position.
      */
+    double a_right_hand_position ()
+    {
+        double l_return = 0.0;
+
+        if (v_servo_right_hand != null)
+        {
+            l_return = v_servo_right_hand.getPosition ();
+        }
+
+        return l_return;
+
+    }//End of a_right_hand_position
+    double a_left_hand_position ()
+    {
+        double l_return = 0.0;
+
+        if (v_servo_left_hand != null)
+        {
+            l_return = v_servo_left_hand.getPosition ();
+        }
+
+        return l_return;
+
+    } //End of a_left_hand_position
     double a_hand_position ()
     {
         double l_return = 0.0;
@@ -1375,6 +1401,56 @@ boolean anti_have_drive_encoders_reached
     /**
      * Mutate the hand position.
      */
+    void m_right_hand_position (double p_position)
+    {
+        //
+        // Ensure the specific value is legal.
+        //
+        double l_position = Range.clip
+                ( p_position
+                        , .05
+                        , .55
+                );
+
+        //
+        // Set the value.  The right hand value must be opposite of the left
+        // value.
+        //
+        //if (v_servo_left_hand != null)
+        //{
+        //    v_servo_left_hand.setPosition (l_position);
+        //}
+        if (v_servo_right_hand != null)
+        {
+            v_servo_right_hand.setPosition (l_position);
+        }
+
+    } //End of m_right_hand_position
+    void m_left_hand_position (double p_position)
+    {
+        //
+        // Ensure the specific value is legal.
+        //
+        double l_position = Range.clip
+                ( p_position
+                        , .45
+                        , .95
+                );
+
+        //
+        // Set the value.  The right hand value must be opposite of the left
+        // value.
+        //
+        if (v_servo_left_hand != null)
+        {
+            v_servo_left_hand.setPosition (l_position);
+        }
+        //if (v_servo_right_hand != null)
+        //{
+        //    v_servo_right_hand.setPosition (1.0 - l_position);
+        //}
+
+    } //End of m_left_hand_position
     void m_hand_position (double p_position)
     {
         //

@@ -95,10 +95,10 @@ public class PushBotTelemetry extends PushBotHardware
                 ( "03"
                         , "Left Arm: " + a_left_arm_power ()
                 );
-        telemetry.addData
-                ( "04"
-                        , "Hand Position: " + a_hand_position ()
-                );
+        //telemetry.addData
+                //( "04"
+                //        , "Hand Position: " + a_hand_position ()
+                //);
 
     } // update_telemetry
 
