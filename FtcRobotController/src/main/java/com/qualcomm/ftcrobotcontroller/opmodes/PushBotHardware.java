@@ -132,7 +132,7 @@ public class PushBotHardware extends OpMode
         double l_right_bucket_rotate_position = .4;
         double l_left_bucket_rotate_position = .9;
         double l_right_flip_position=.95;
-        double l_holder_position = 0;
+        double l_holder_position = 0.2;
         double l_right_dump_position=.43;
         double l_left_dump_position=.57;
 

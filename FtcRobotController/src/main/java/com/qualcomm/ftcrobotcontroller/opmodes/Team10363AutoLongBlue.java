@@ -190,7 +190,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 break;
             case 4://Drop the servos holding the climbers
 
-                m_holder_position(.9);
+                m_holder_position(.95);
 
             //    try {
             //        sleep(1000);
