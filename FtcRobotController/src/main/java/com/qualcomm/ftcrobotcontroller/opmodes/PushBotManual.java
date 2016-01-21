@@ -89,6 +89,9 @@ public class PushBotManual extends PushBotTelemetry
         //
         // Servo controls
         //
+        if (gamepad1.a){m_churro_motor_power(1);}
+        if (gamepad1.b){m_churro_motor_power(-1);}
+        if (gamepad1.x){m_churro_motor_power(0);}
         // manual controls for left and right buckets
         m_left_bucket_rotate_position(a_left_bucket_rotate_position() - ((gamepad2.left_stick_y) * .005));
         m_right_bucket_rotate_position(a_right_bucket_rotate_position() + ((gamepad2.right_stick_y) * .005));

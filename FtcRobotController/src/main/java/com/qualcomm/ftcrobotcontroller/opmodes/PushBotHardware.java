@@ -4,6 +4,7 @@ import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -82,6 +83,17 @@ public class PushBotHardware extends OpMode
         //
         try
         {
+            v_motor_churro_motor = hardwareMap.dcMotor.get ("churro_motor");
+        }
+        catch (Exception p_exeception)
+        {
+            m_warning_message ("churro_motor");
+            DbgLog.msg (p_exeception.getLocalizedMessage ());
+
+            v_motor_churro_motor = null;
+        }
+        try
+        {
             v_motor_left_drive = hardwareMap.dcMotor.get ("left_drive");
         }
         catch (Exception p_exeception)
@@ -132,9 +144,18 @@ public class PushBotHardware extends OpMode
         double l_right_bucket_rotate_position = .4;
         double l_left_bucket_rotate_position = .9;
         double l_right_flip_position=.95;
-        double l_holder_position = 0.2;
+        double l_holder_position = 0.05;
         double l_right_dump_position=.43;
         double l_left_dump_position=.57;
+        sensorGyro = hardwareMap.gyroSensor.get("gyro");
+        sensorGyro.calibrate();// Reset the motor encoders on th
+        while (sensorGyro.isCalibrating())  {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         try
         {
@@ -265,6 +286,10 @@ public class PushBotHardware extends OpMode
 
     } // a_warning_generated
 
+    //-------------------------------------------------------------------------
+    int a_gyro_heading(){
+        return sensorGyro.getHeading();
+    }
     //--------------------------------------------------------------------------
     //
     // a_warning_message
@@ -735,6 +760,43 @@ public class PushBotHardware extends OpMode
         return l_scale;
 
     } // scale_motor_power
+
+
+    //--------------------------------------------------------------------------
+    //
+    // a_left_arm_power
+    //
+    /**
+     * Access the left arm motor's power level.
+     */
+    double m_churro_motor_power ()
+    {
+        double l_return = 0.0;
+
+        if (v_motor_churro_motor != null)
+        {
+            l_return = v_motor_churro_motor.getPower ();
+        }
+
+        return l_return;
+
+    } // a_left_arm_power
+
+    //--------------------------------------------------------------------------
+    //
+    // m_left_arm_power
+    //
+    /**
+     * Access the left arm motor's power level.
+     */
+    void m_churro_motor_power (double p_level)
+    {
+        if (v_motor_churro_motor != null)
+        {
+            v_motor_churro_motor.setPower (p_level);
+        }
+
+    } // m_left_arm_power
 
     //--------------------------------------------------------------------------
     //
@@ -1537,6 +1599,7 @@ boolean anti_have_drive_encoders_reached
      * Manage the aspects of the right drive motor.
      */
     private DcMotor v_motor_right_drive;
+    private DcMotor v_motor_churro_motor;
 
     //--------------------------------------------------------------------------
     //
@@ -1570,6 +1633,7 @@ boolean anti_have_drive_encoders_reached
     private Servo v_servo_left_flip;
     private Servo v_servo_right_dump;
     private Servo v_servo_left_dump;
+    private GyroSensor sensorGyro;
 
 private  Servo v_servo_left_arm;
 private  Servo v_servo_right_arm;

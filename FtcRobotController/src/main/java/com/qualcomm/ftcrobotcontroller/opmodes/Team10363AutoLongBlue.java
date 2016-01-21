@@ -61,7 +61,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         //
         super.start ();
 
-        // Reset the motor encoders on the drive wheels.
+
+        // e drive wheels.
         //
         reset_drive_encoders ();
         //
@@ -99,6 +100,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //
             reset_drive_encoders ();
 
+
             //
             // Transition to the next state when this method is called again.
             //
@@ -121,8 +123,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //
             // Start the drive wheel motors at half power.
             //
+            double adjspeed=.5*Math.sin(((2*Math.PI)/360)*a_gyro_heading());
             m_holder_position(.6);
-            set_drive_power (.25f, .25f);
+            set_drive_power (.25f+adjspeed, .25f-adjspeed);
 
 
             //
