@@ -125,7 +125,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //
             double adjspeed=.5*Math.sin(((2*Math.PI)/360)*a_gyro_heading());
             m_holder_position(.6);
-            set_drive_power (.25f+adjspeed, .25f-adjspeed);
+            set_drive_power (.25f-adjspeed, .25f+adjspeed);
 
 
             //
@@ -334,6 +334,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         //
         update_telemetry (); // Update common telemetry
         telemetry.addData ("18", "State: " + v_state);
+        telemetry.addData("88","gyro heading:"+a_gyro_heading());
 
     } // loop
 
