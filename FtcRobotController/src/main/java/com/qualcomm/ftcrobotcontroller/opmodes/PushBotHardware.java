@@ -2,6 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
@@ -148,7 +149,13 @@ public class PushBotHardware extends OpMode
         double l_right_dump_position=.43;
         double l_left_dump_position=.57;
         sensorGyro = hardwareMap.gyroSensor.get("gyro");
-        sensorGyro.calibrate();// Reset the motor encoders on th
+        sensorRGBBeacon = hardwareMap.colorSensor.get("beacon_color");
+        sensorRGBLeft = hardwareMap.colorSensor.get("left_color");
+        sensorRGBRight = hardwareMap.colorSensor.get("right_color");
+        sensorRGBRight.enableLed(true);
+        sensorRGBLeft.enableLed(true);
+        sensorRGBBeacon.enableLed(false);
+        sensorGyro.calibrate();// Reset the gyro
         while (sensorGyro.isCalibrating())  {
             try {
                 Thread.sleep(50);
@@ -290,6 +297,11 @@ public class PushBotHardware extends OpMode
     int a_gyro_heading(){
         return sensorGyro.getHeading();
     }
+    int a_left_blue() {return sensorRGBLeft.blue();}
+    int a_left_red() {return sensorRGBLeft.red();}
+    double a_right_blue() {return sensorRGBRight.blue();}
+    void right_led_on(){sensorRGBRight.enableLed(true);}
+    int a_right_red() {return sensorRGBRight.red();}
     //--------------------------------------------------------------------------
     //
     // a_warning_message
@@ -1634,6 +1646,9 @@ boolean anti_have_drive_encoders_reached
     private Servo v_servo_right_dump;
     private Servo v_servo_left_dump;
     private GyroSensor sensorGyro;
+    private ColorSensor sensorRGBBeacon;
+    private ColorSensor sensorRGBRight;
+    private ColorSensor sensorRGBLeft;
 
 private  Servo v_servo_left_arm;
 private  Servo v_servo_right_arm;

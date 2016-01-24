@@ -126,6 +126,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             double adjspeed=.5*Math.sin(((2*Math.PI)/360)*a_gyro_heading());
             m_holder_position(.6);
             set_drive_power (.25f-adjspeed, .25f+adjspeed);
+            right_led_on();
 
 
             //
@@ -134,7 +135,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // If they haven't, then the op-mode remains in this state (i.e this
             // block will be executed the next time this method is called).
             //
-            if (have_drive_encoders_reached (10804, 10804))
+            if (a_right_blue()>=.2)
             {
                 //
                 // Reset the encoders to ensure they are at a known good value.
@@ -163,9 +164,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
             telemetry.addData("20", "RightEncoderPos: " + right_encoder_pos);
             //Set the right wheel backwards
-            set_drive_power(0.0f, -0.25f);
+            set_drive_power(0.0f, -0.2f);
             //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
-            if (anti_have_drive_encoders_reached(left_encoder_pos,right_encoder_pos-1200)) {
+            if (a_gyro_heading()>=45) {
                 set_drive_power(0.0f, 0.0f);
 
                 left_encoder_pos=a_left_encoder_count();
@@ -180,7 +181,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                set_drive_power(0.2f,0.2f);
+                adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-45));
+                set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
                 m_holder_position(.8);
 
                 if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
@@ -332,9 +334,10 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         //
         // Send telemetry data to the driver station.
         //
-        update_telemetry (); // Update common telemetry
+        update_telemetry(); // Update common telemetry
         telemetry.addData ("18", "State: " + v_state);
         telemetry.addData("88","gyro heading:"+a_gyro_heading());
+        telemetry.addData("81","right blue:"+a_right_blue());
 
     } // loop
 
