@@ -50,7 +50,7 @@ public class PushBotManual extends PushBotTelemetry
      *
      * The system calls this member repeatedly while the OpMode is running.
      */
-    double current_heading = a_gyro_heading();
+    private double current_heading = 0;
     @Override public void loop ()
 
     {
@@ -80,16 +80,18 @@ public class PushBotManual extends PushBotTelemetry
         //
         // Manage the drive wheel motors.
         //
-        //
         // Auto-Adjusts
+        //
         double adjspeed = 0;
 
         float scale = 1;
         if(slow){scale = 0.4f;}
         if (slow){
             current_heading = a_gyro_heading();
-        }else if (Math.abs(gamepad1.left_stick_y-gamepad1.right_stick_y)<.1) {
-                adjspeed=.5*Math.sin((Math.PI/180)*(a_gyro_heading() - current_heading));
+        } else if (gamepad1.left_stick_y == 0 && gamepad1.right_stick_y == 0){
+            current_heading = a_gyro_heading();
+        } else if (Math.abs(gamepad1.left_stick_y-gamepad1.right_stick_y)<.1) {
+                adjspeed=Math.sin((Math.PI/180)*(a_gyro_heading() - current_heading));
         }else{
             current_heading = a_gyro_heading();
         }
