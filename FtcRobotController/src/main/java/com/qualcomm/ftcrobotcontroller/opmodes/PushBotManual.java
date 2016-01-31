@@ -4,6 +4,9 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 //
 // PushBotManual
 //
+
+import com.qualcomm.robotcore.util.Range;
+
 /**
  * Provide a basic manual operational mode that uses the left and right
  * drive motors, left arm motor, servo motors and gamepad input from two
@@ -83,7 +86,7 @@ public class PushBotManual extends PushBotTelemetry
         // Auto-Adjusts
         //
         double adjspeed = 0;
-
+        double gyroscale=gamepad1.left_stick_y+gamepad1.right_stick_y;
         float scale = 1;
         if(slow){scale = 0.4f;}
         if (slow){
@@ -91,14 +94,24 @@ public class PushBotManual extends PushBotTelemetry
         } else if (gamepad1.left_stick_y == 0 && gamepad1.right_stick_y == 0){
             current_heading = a_gyro_heading();
         } else if (Math.abs(gamepad1.left_stick_y-gamepad1.right_stick_y)<.1) {
-                adjspeed=Math.sin((Math.PI/180)*(a_gyro_heading() - current_heading));
+                adjspeed=gyroscale*Math.sin((Math.PI/180)*(a_gyro_heading() - current_heading));
         }else{
             current_heading = a_gyro_heading();
         }
-        float l_left_drive_power = scale_motor_power ((float) ((-gamepad1.left_stick_y*scale)-adjspeed));
-        float l_right_drive_power = scale_motor_power ((float) ((-gamepad1.right_stick_y*scale)+adjspeed));
+        update_telemetry();
+        telemetry.addData("49: gyroscale", gyroscale);
+        telemetry.addData("50: adjspeed", adjspeed);
+        telemetry.addData("51: gyro heading", a_gyro_heading());
+        telemetry.addData("52: zero heading", current_heading);
 
-        set_drive_power (l_left_drive_power, l_right_drive_power);
+        float l_left_drive_power = scale_motor_power (((-gamepad1.left_stick_y*scale)));
+        float l_right_drive_power = scale_motor_power (((-gamepad1.right_stick_y*scale)));
+        l_left_drive_power = Range.clip(((float) ((l_left_drive_power*scale) - adjspeed)), -1, 1);
+        l_right_drive_power = Range.clip(((float) ((l_right_drive_power*scale) + adjspeed)), -1, 1);
+        telemetry.addData("53: left_drive_power", l_left_drive_power);
+        telemetry.addData("54: right_drive_power", l_right_drive_power);
+
+        set_drive_power(l_left_drive_power, l_right_drive_power);
 
         //
         // Servo controls

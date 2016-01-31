@@ -69,7 +69,7 @@ public class FtcOpModeRegister implements OpModeRegister {
       manager.register ("Team10363Manual", PushBotManual.class);
       manager.register ("Team10363AutoLongStraight", Team10363AutoLongStraight.class);
       manager.register ("Team10363AutoShortStraight", Team10363AutoShortStraight.class);
-
+      manager.register("LEDTest", MRRGBExample.class);
     /*
      * Uncomment any of the following lines if you want to register an op mode.
      */

@@ -139,6 +139,7 @@ public class PushBotHardware extends OpMode
         // hand should be halfway opened/closed.
         //
         double l_left_flip_position=.05;
+        double l_scrub_position=.92;
         double l_left_hand_position = 0.5;
         double l_right_hand_position = 0.5;
         double l_hand_position = 0.5;
@@ -152,10 +153,8 @@ public class PushBotHardware extends OpMode
         sensorRGBBeacon = hardwareMap.colorSensor.get("beacon_color");
         sensorRGBLeft = hardwareMap.colorSensor.get("left_color");
         sensorRGBRight = hardwareMap.colorSensor.get("right_color");
-        sensorRGBRight.enableLed(true);
-        sensorRGBLeft.enableLed(true);
-        sensorRGBBeacon.enableLed(false);
         sensorGyro.calibrate();// Reset the gyro
+
         while (sensorGyro.isCalibrating())  {
             try {
                 Thread.sleep(50);
@@ -176,7 +175,15 @@ public class PushBotHardware extends OpMode
 
             v_servo_left_hand = null;
         }
-
+        try {
+            v_servo_scrub=hardwareMap.servo.get("beacon");
+            v_servo_scrub.setPosition(l_scrub_position);
+        }
+        catch (Exception p_exeception){
+            m_warning_message("scrub");
+            DbgLog.msg(p_exeception.getLocalizedMessage());
+            v_servo_scrub=null;
+        }
         try
         {
             v_servo_holder = hardwareMap.servo.get ("holder");
@@ -342,6 +349,15 @@ public class PushBotHardware extends OpMode
     //
     //--------------------------------------------------------------------------
     //
+    double beacon_cleaniess(){
+        double l_return=0.0;
+        if (v_servo_scrub!=null){l_return=v_servo_scrub.getPosition();}
+        return l_return;
+        }
+    void clean_beacon(double p_position){
+        double l_position= Range.clip(p_position,0,1);
+        if (v_servo_scrub!=null){v_servo_scrub.setPosition(l_position);}
+    }
     double a_left_dump_position ()
     {
         double l_return = 0.0;
@@ -779,9 +795,9 @@ public class PushBotHardware extends OpMode
     // a_left_arm_power
     //
     /**
-     * Access the left arm motor's power level.
+     * Access the left churro motor's power level.
      */
-    double m_churro_motor_power ()
+    double a_churro_motor_power ()
     {
         double l_return = 0.0;
 
@@ -792,7 +808,7 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_left_arm_power
+    } // a_churro_motor_power
 
     //--------------------------------------------------------------------------
     //
@@ -1641,14 +1657,15 @@ boolean anti_have_drive_encoders_reached
      * Manage the aspects of the right hand servo.
      */
     private Servo v_servo_right_hand;
+    private Servo v_servo_scrub;
     private Servo v_servo_right_flip;
     private Servo v_servo_left_flip;
     private Servo v_servo_right_dump;
     private Servo v_servo_left_dump;
     private GyroSensor sensorGyro;
-    private ColorSensor sensorRGBBeacon;
-    private ColorSensor sensorRGBRight;
-    private ColorSensor sensorRGBLeft;
+    ColorSensor sensorRGBBeacon;
+    ColorSensor sensorRGBRight;
+    ColorSensor sensorRGBLeft;
 
 private  Servo v_servo_left_arm;
 private  Servo v_servo_right_arm;
