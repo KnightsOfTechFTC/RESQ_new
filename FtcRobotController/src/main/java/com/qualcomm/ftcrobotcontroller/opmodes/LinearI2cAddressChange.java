@@ -66,13 +66,13 @@ public class LinearI2cAddressChange extends LinearOpMode {
   // you'll be able to change the I2C address of the ModernRoboticsColorSensor.
   // If the bytes you're expecting are different than what this op mode finds,
   // a comparison will be printed out into the logfile.
-  public static final byte FIRMWARE_REV = IR_SEEKER_V3_FIRMWARE_REV;
-  public static final byte SENSOR_ID = IR_SEEKER_V3_SENSOR_ID;
+  public static final byte FIRMWARE_REV = COLOR_SENSOR_FIRMWARE_REV;
+  public static final byte SENSOR_ID = COLOR_SENSOR_SENSOR_ID;
 
   // These byte values are common with most Modern Robotics sensors.
   public static final int READ_MODE = 0x80;
-  public static final int ADDRESS_MEMORY_START = 0x0;
-  public static final int TOTAL_MEMORY_LENGTH = 0x0c;
+  public static final int ADDRESS_MEMORY_START = 0x03; //Original Value 0x0
+  public static final int TOTAL_MEMORY_LENGTH = 0x06; //Original Value 0x0c
   public static final int BUFFER_CHANGE_ADDRESS_LENGTH = 0x03;
 
   // The port where your sensor is connected.
@@ -83,7 +83,7 @@ public class LinearI2cAddressChange extends LinearOpMode {
   byte[] writeCache;
   Lock writeLock;
 
-  int currentAddress = IR_SEEKER_V3_ORIGINAL_ADDRESS;
+  int currentAddress = COLOR_SENSOR_ORIGINAL_ADDRESS;
   // I2c addresses on Modern Robotics devices must be divisible by 2, and between 0x7e and 0x10
   // Different hardware may have different rules.
   // Be sure to read the requirements for the hardware you're using!
@@ -96,7 +96,7 @@ public class LinearI2cAddressChange extends LinearOpMode {
   public void runOpMode() throws InterruptedException {
 
     // set up the hardware devices we are going to use
-    dim = hardwareMap.deviceInterfaceModule.get("dim");
+    dim = hardwareMap.deviceInterfaceModule.get("Device Interface Module 3");
 
     readCache = dim.getI2cReadCache(port);
     readLock = dim.getI2cReadCacheLock(port);

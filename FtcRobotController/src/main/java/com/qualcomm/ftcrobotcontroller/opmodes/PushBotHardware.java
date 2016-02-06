@@ -140,9 +140,9 @@ public class PushBotHardware extends OpMode
         //
         double l_left_flip_position=.05;
         double l_scrub_position=.92;
-        double l_left_hand_position = 0.5;
-        double l_right_hand_position = 0.5;
-        double l_hand_position = 0.5;
+        double l_left_hand_position = 0.4; // was 0.6
+        double l_right_hand_position = 0.6;  // was 0.4
+     //   double l_hand_position = 0.5;
         double l_right_bucket_rotate_position = .4;
         double l_left_bucket_rotate_position = .9;
         double l_right_flip_position=.95;
@@ -304,6 +304,8 @@ public class PushBotHardware extends OpMode
     int a_gyro_heading(){
         return sensorGyro.getHeading();
     }
+    double a_gyro_z()
+    {return sensorGyro.rawZ();}
     int a_left_blue() {return sensorRGBLeft.blue();}
     int a_left_red() {return sensorRGBLeft.red();}
     double a_right_blue() {return sensorRGBRight.blue();}
