@@ -99,8 +99,13 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // Reset the encoders to ensure they are at a known good value.
             //
             reset_drive_encoders ();
-
-
+            if(a_gyro_heading()<180){
+                zeroheading=a_gyro_heading()
+                
+            }
+            else{
+                zeroheading=360-a_gyro_heading()
+            }
             //
             // Transition to the next state when this method is called again.
             //
@@ -126,7 +131,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //
             //Corrected by Gyro
             //
-            double adjspeed=.5*Math.sin(((2*Math.PI)/360)*a_gyro_heading());
+            double adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-zeroheading));
             m_holder_position(.6);
             set_drive_power (.25f-adjspeed, .25f+adjspeed);
             right_led_on();
@@ -172,7 +177,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //Set the right wheel backwards
             set_drive_power(0.0f, -0.2f);
             //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
-            if (a_gyro_heading()>=45) {
+            if (a_gyro_heading()>=45+zeroheading) {
                 set_drive_power(0.0f, 0.0f);
 
                 left_encoder_pos=a_left_encoder_count();
@@ -187,7 +192,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-45));
+                adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-(45+zeroheading)));
                 set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
                 m_holder_position(.8);
 
@@ -359,6 +364,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
      * a state machine for the loop method.
      */
     private int v_state = 0;
+    private int zeroheading=0;
     private double left_encoder_pos = 0;
     private double right_encoder_pos = 0;
 } // PushBotAuto
