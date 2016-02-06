@@ -98,7 +98,8 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 //
                 // Start the drive wheel motors at half power.
                 //
-                set_drive_power (.25f, .25f);
+                double adjspeed=.5*Math.sin(((2*Math.PI)/360)*a_gyro_heading());
+                set_drive_power (.25f-adjspeed, .25f+adjspeed);
                 m_holder_position(.6);
 
                 //
@@ -107,19 +108,20 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (10050, 10050))
+                if (have_drive_encoders_reached (12000, 12000)||a_left_red>10)
                 {
-                    //
+                    if(have_drive_encoders_reached (1800, 1800){//
                     // Reset the encoders to ensure they are at a known good value.
                     //
 
                     //
                     // Stop the motors.
                     //
-                    set_drive_power (0.0f, 0.0f);
+                        set_drive_power (0.0f, 0.0f);
 
-                    left_encoder_pos=a_left_encoder_count();
-                    right_encoder_pos=a_right_encoder_count();
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
+                    }
                     //
                     // Transition to the next state when this method is called
                     // again.
@@ -136,9 +138,10 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
                 //Set the right wheel backwards
+                
                 set_drive_power(-0.25f,0.0f);
                 //Same as before, but with the left wheel backwards and a little bit of extra goodness to prevent any bugs
-                if (anti_have_drive_encoders_reached(left_encoder_pos-1200,right_encoder_pos)) {
+                if (a_gyro_heading()<=315&&a_gyro_heading>270) {
                     set_drive_power(0.0f, 0.0f);
 
                     left_encoder_pos=a_left_encoder_count();
@@ -153,7 +156,8 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                set_drive_power(0.2f,0.2f);
+                double adjspeed=Math.sin(((2*Math.PI)/360)*(a_gyro_heading()+45));
+                set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
                 m_holder_position(.8);
 
 
