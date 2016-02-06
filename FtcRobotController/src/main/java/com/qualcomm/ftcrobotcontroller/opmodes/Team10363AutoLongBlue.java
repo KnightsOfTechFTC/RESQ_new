@@ -140,6 +140,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //
             if (a_right_blue()>=.2 || have_drive_encoders_reached(12000,12000))
             {
+                if (have_drive_encoders_reached(1800,1800))
+                {
                 //
                 // Reset the encoders to ensure they are at a known good value.
                 //
@@ -147,10 +149,11 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 //
                 // Stop the motors.
                 //
-                set_drive_power (0.0f, 0.0f);
+                    set_drive_power (0.0f, 0.0f);
 
-                left_encoder_pos=a_left_encoder_count();
-                right_encoder_pos=a_right_encoder_count();
+                    left_encoder_pos=a_left_encoder_count();
+                    right_encoder_pos=a_right_encoder_count();
+                }
                 //
                 // Transition to the next state when this method is called
                 // again.
