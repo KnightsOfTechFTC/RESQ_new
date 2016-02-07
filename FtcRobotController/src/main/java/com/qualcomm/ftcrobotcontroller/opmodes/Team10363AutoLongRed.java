@@ -76,11 +76,11 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 //
                 reset_drive_encoders ();
                 if(a_gyro_heading()<180){
-                    zeroheading=a_gyro_heading()
+                    zeroheading=a_gyro_heading();
                 
                 }
                 else{
-                     zeroheading=360-a_gyro_heading()
+                     zeroheading=360-a_gyro_heading();
                 }
 
                 //
@@ -115,9 +115,9 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (12000, 12000)||a_left_red>10)
+                if (have_drive_encoders_reached (12000, 12000)||a_left_red()>10)
                 {
-                    if(have_drive_encoders_reached (1800, 1800){//
+                    if(have_drive_encoders_reached (1800, 1800)){//
                     // Reset the encoders to ensure they are at a known good value.
                     //
 
@@ -163,7 +163,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                double adjspeed=Math.sin(((2*Math.PI)/360)*(a_gyro_heading()+(45+zeroheading)));
+                adjspeed=Math.sin(((2*Math.PI)/360)*(a_gyro_heading()+(45+zeroheading)));
                 set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
                 m_holder_position(.8);
 

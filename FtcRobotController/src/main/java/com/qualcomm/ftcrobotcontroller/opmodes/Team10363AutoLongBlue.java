@@ -280,11 +280,15 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 if (BeaconColorfullness > 1.8){
                     set_drive_power(0.2,-0.2);
                     if (a_gyro_heading() >= 75){
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
                         v_state++;
                     }
                 } else {
                     set_drive_power(0.2,-0.2);
                     if (a_gyro_heading() >= 95){
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
                         v_state++;
                     }
                 }
@@ -298,8 +302,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
              //   telemetry.addData("22", "RightEncoderPos: " + right_encoder_pos);
                 //m_hand_position(1);
                 //m_hand_position(0);
-                left_encoder_pos=a_left_encoder_count();
-                right_encoder_pos=a_right_encoder_count();
+
                 set_drive_power(0.5f,0.5f);
                 /*try {
 
@@ -385,7 +388,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         telemetry.addData("82","Beacon Blueness:"+sensorRGBBeacon.blue());
         telemetry.addData("83","Adjspeed:"+adjspeed);
         telemetry.addData("84","tempGyro:"+tempGyro);
-
+        telemetry.addData("85","Beacon Red:"+sensorRGBBeacon.red());
+        telemetry.addData("85","Beacon Green:"+sensorRGBBeacon.green());
     } // loop
 
     //--------------------------------------------------------------------------

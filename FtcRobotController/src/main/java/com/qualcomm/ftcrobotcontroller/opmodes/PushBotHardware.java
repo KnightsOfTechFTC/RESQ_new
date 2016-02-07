@@ -138,6 +138,7 @@ public class PushBotHardware extends OpMode
         // Indicate the initial position of both the left and right servos.  The
         // hand should be halfway opened/closed.
         //
+
         double l_left_flip_position=.05;
         double l_scrub_position=.92;
         double l_left_hand_position = 0.4; // was 0.6
@@ -153,6 +154,9 @@ public class PushBotHardware extends OpMode
         sensorRGBBeacon = hardwareMap.colorSensor.get("beacon_color");
         sensorRGBLeft = hardwareMap.colorSensor.get("left_color");
         sensorRGBRight = hardwareMap.colorSensor.get("right_color");
+        sensorRGBLeft.setI2cAddress(0x42);
+        sensorRGBRight.setI2cAddress(0x44);
+        sensorRGBBeacon.setI2cAddress(0x38);
         sensorGyro.calibrate();// Reset the gyro
 
         while (sensorGyro.isCalibrating())  {

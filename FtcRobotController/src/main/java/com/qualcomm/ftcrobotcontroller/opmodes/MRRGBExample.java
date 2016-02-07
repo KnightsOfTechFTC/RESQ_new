@@ -65,7 +65,7 @@ public class MRRGBExample extends LinearOpMode {
 
     // get a reference to our ColorSensor object.
     //sensorRGB = hardwareMap.colorSensor.get("mr");
-    sensorRGB = hardwareMap.colorSensor.get("right_color");
+    sensorRGB = hardwareMap.colorSensor.get("beacon_color");
     // bEnabled represents the state of the LED.
     boolean bEnabled = true;
 
