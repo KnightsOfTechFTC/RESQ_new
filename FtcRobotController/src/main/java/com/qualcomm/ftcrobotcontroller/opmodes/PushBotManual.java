@@ -76,7 +76,7 @@ public class PushBotManual extends PushBotTelemetry
         //
         clean_beacon(.8);
 
-        //This is a slow button. It makes it slow.
+        //This is a slow button. It makes it go slow.
         boolean slow = false;
         if(gamepad1.left_bumper){slow=true;}
 
@@ -92,36 +92,36 @@ public class PushBotManual extends PushBotTelemetry
         if(slow){scale = 0.4f;}
         if (slow){
             current_heading = a_gyro_heading();
-        } else if (gamepad1.left_stick_y == 0 && gamepad1.right_stick_y == 0){
+        } else if (Math.abs(gamepad1.left_stick_y) <= 0.1 && Math.abs(gamepad1.right_stick_y) <= 0.1){
             current_heading = a_gyro_heading();
         }
-        else if(gyroZ>20){current_heading=a_gyro_heading();}
         else if (Math.abs(gamepad1.left_stick_y-gamepad1.right_stick_y)<.1) {
                 adjspeed=gyroscale*Math.sin((Math.PI/180)*(a_gyro_heading() - current_heading));
         }else{
             current_heading = a_gyro_heading();
         }
         update_telemetry();
-        telemetry.addData("48: gyro z",a_gyro_z());
+        telemetry.addData("48: Gyro Z",a_gyro_z());
         telemetry.addData("49: gyroscale", gyroscale);
         telemetry.addData("50: adjspeed", adjspeed);
         telemetry.addData("51: gyro heading", a_gyro_heading());
-        telemetry.addData("52: zero heading", current_heading);
+        telemetry.addData("52: current heading", current_heading);
+        telemetry.addData("53: Gamepad 1 Left Stick Y", gamepad1.left_stick_y);
 
         float l_left_drive_power = scale_motor_power (((-gamepad1.left_stick_y*scale)));
         float l_right_drive_power = scale_motor_power (((-gamepad1.right_stick_y*scale)));
         l_left_drive_power = Range.clip(((float) ((l_left_drive_power) - adjspeed)), -1, 1);
         l_right_drive_power = Range.clip(((float) ((l_right_drive_power) + adjspeed)), -1, 1);
-        telemetry.addData("53: left_drive_power", l_left_drive_power);
-        telemetry.addData("54: right_drive_power", l_right_drive_power);
+        telemetry.addData("54: left_drive_power", l_left_drive_power);
+        telemetry.addData("55: right_drive_power", l_right_drive_power);
 
         set_drive_power(l_left_drive_power, l_right_drive_power);
 
         //
         // Servo controls
         //
-        if (gamepad1.a){m_churro_motor_power(.15);}
-        if (gamepad1.b){m_churro_motor_power(-.15);}
+        if (gamepad1.a){m_churro_motor_power(.22);}
+        if (gamepad1.b){m_churro_motor_power(-.22);}
         if (gamepad1.x){m_churro_motor_power(0);}
         // manual controls for left and right buckets
         m_left_bucket_rotate_position(a_left_bucket_rotate_position() - ((gamepad2.left_stick_y) * .005));

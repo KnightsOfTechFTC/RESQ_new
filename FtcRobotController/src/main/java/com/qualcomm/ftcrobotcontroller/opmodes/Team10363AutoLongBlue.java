@@ -20,6 +20,7 @@ import static java.lang.Thread.sleep;
 public class Team10363AutoLongBlue extends PushBotTelemetry
 
 {
+
     //--------------------------------------------------------------------------
     //
     // PushBotAuto
@@ -83,6 +84,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
      *
      * The system calls this member repeatedly while the OpMode is running.
      */
+
     @Override public void loop ()
 
     {
@@ -95,28 +97,32 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         // Synchronize the state machine and hardware.
         //
         case 0:
+            sensorRGBLeft.setI2cAddress(0x42);
+            sensorRGBRight.setI2cAddress(0x44);
+            sensorRGBBeacon.setI2cAddress(0x38);
             //
             // Reset the encoders to ensure they are at a known good value.
             //
-            reset_drive_encoders ();
+            reset_drive_encoders();
             sensorRGBBeacon.enableLed(false);
-            int iter=0;
+            /*int iter=0;
             while (iter<1000){
                     telemetry.addData("0.1","waiting");
                     iter=iter+1;
             }
-            iter=0;
+            iter=0;*/
             clean_beacon(.5);
             sensorRGBLeft.enableLed(true);
-            while (iter<1000){
+            /*while (iter<1000){
                 telemetry.addData("0.1","waiting");
                 iter=iter+1;
-            }
+            }*/
             clean_beacon(.7);
             sensorRGBRight.enableLed(true);
             //
             // Transition to the next state when this method is called again.
             //
+            tempGyro = a_gyro_heading();
             v_state++;
 
             break;
@@ -139,7 +145,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //
             //Corrected by Gyro
             //
-            double adjspeed=.5*Math.sin(((2*Math.PI)/360)*a_gyro_heading());
+
+            adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-tempGyro));
             m_holder_position(.6);
             set_drive_power (.25f-adjspeed, .25f+adjspeed);
             right_led_on();
@@ -151,8 +158,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // If they haven't, then the op-mode remains in this state (i.e this
             // block will be executed the next time this method is called).
             //
-            if (a_right_blue()>=.2 || have_drive_encoders_reached(12000,12000))
+            if (a_right_blue()>=1.8 || have_drive_encoders_reached(12000,12000))
             {
+                if (have_drive_encoders_reached(10000,10000)){
                 //
                 // Reset the encoders to ensure they are at a known good value.
                 //
@@ -160,16 +168,16 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 //
                 // Stop the motors.
                 //
-                set_drive_power (0.0f, 0.0f);
+                    set_drive_power (0.0f, 0.0f);
 
-                left_encoder_pos=a_left_encoder_count();
-                right_encoder_pos=a_right_encoder_count();
+                    left_encoder_pos=a_left_encoder_count();
+                    right_encoder_pos=a_right_encoder_count();
                 //
                 // Transition to the next state when this method is called
                 // again.
 
-                v_state++;
-            }
+                    v_state++;
+            }}
             break;
         //
         // Wait...
@@ -182,7 +190,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //Set the right wheel backwards
             set_drive_power(0.0f, -0.2f);
             //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
-            if (a_gyro_heading()>=45) {
+            if (a_gyro_heading()>=45+tempGyro) {
                 set_drive_power(0.0f, 0.0f);
 
                 left_encoder_pos=a_left_encoder_count();
@@ -197,7 +205,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-45));
+                adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-(45+tempGyro)));
                 set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
                 m_holder_position(.8);
 
@@ -262,13 +270,14 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
              //           e.printStackTrace();
              //       }
                     v_state++;
+
                     //m_hand_position(1);
                     //m_hand_position(0);
                 }
 
                 break;
             case 6://Turning to press beacon button
-                if (BeaconColorfullness > 0.2){
+                if (BeaconColorfullness > 1.8){
                     set_drive_power(0.2,-0.2);
                     if (a_gyro_heading() >= 75){
                         v_state++;
@@ -289,7 +298,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
              //   telemetry.addData("22", "RightEncoderPos: " + right_encoder_pos);
                 //m_hand_position(1);
                 //m_hand_position(0);
-
+                left_encoder_pos=a_left_encoder_count();
+                right_encoder_pos=a_right_encoder_count();
                 set_drive_power(0.5f,0.5f);
                 /*try {
 
@@ -369,10 +379,12 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         // Send telemetry data to the driver station.
         //
         update_telemetry(); // Update common telemetry
-        telemetry.addData ("18", "State: " + v_state);
+        telemetry.addData("18", "State: " + v_state);
         telemetry.addData("88","gyro heading:"+a_gyro_heading());
         telemetry.addData("81","right blue:"+a_right_blue());
         telemetry.addData("82","Beacon Blueness:"+sensorRGBBeacon.blue());
+        telemetry.addData("83","Adjspeed:"+adjspeed);
+        telemetry.addData("84","tempGyro:"+tempGyro);
 
     } // loop
 
@@ -391,4 +403,6 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
     private double left_encoder_pos = 0;
     private double right_encoder_pos = 0;
     private double BeaconColorfullness = 0;
+    private double adjspeed = 0;
+    private double tempGyro = 0;
 } // PushBotAuto
