@@ -303,15 +303,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 //m_hand_position(1);
                 //m_hand_position(0);
 
-                set_drive_power(0.5f,0.5f);
-                /*try {
+                set_drive_power(0.2f,0.2f);
 
-                    sleep(1000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
-                if (have_drive_encoders_reached(left_encoder_pos+720,right_encoder_pos+720)) {
+                if (have_drive_encoders_reached(left_encoder_pos+1440,right_encoder_pos+1440)) {
                     set_drive_power(0.0f,0.0f);
                     clean_beacon(1);
                     v_state++;
