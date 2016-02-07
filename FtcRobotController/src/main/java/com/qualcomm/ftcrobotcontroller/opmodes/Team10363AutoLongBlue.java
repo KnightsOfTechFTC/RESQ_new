@@ -277,16 +277,16 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
                 break;
             case 6://Turning to press beacon button
-                if (BeaconColorfullness >= 3){
+                if (BeaconColorfullness >= 2){
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 75){
+                    if (a_gyro_heading() >= 55){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
                         v_state++;
                     }
                 } else {
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 95){
+                    if (a_gyro_heading() >= 75){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
                         v_state++;
@@ -316,7 +316,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                     clean_beacon(1);
                     v_state++;
                 }
-
+                break;
 
 
 
@@ -372,6 +372,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // The autonomous actions have been accomplished (i.e. the state has
             // transitioned into its final state.)
             //
+            clean_beacon(1);
             if (!have_drive_encoders_reset()) {
                 reset_drive_encoders();
             }
