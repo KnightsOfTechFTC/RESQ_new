@@ -115,9 +115,9 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (12000, 12000)||a_left_red()>10)
+                if (have_drive_encoders_reached (11000, 11000))
                 {
-                    if(have_drive_encoders_reached (1800, 1800)){//
+
                     // Reset the encoders to ensure they are at a known good value.
                     //
 
@@ -128,7 +128,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
-                    }
+
                     //
                     // Transition to the next state when this method is called
                     // again.

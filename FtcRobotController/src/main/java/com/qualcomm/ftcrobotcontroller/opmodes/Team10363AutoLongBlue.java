@@ -158,9 +158,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // If they haven't, then the op-mode remains in this state (i.e this
             // block will be executed the next time this method is called).
             //
-            if (a_right_blue()>=1.8 || have_drive_encoders_reached(12000,12000))
+            if ( have_drive_encoders_reached(11000,11000))
             {
-                if (have_drive_encoders_reached(10000,10000)){
+
                 //
                 // Reset the encoders to ensure they are at a known good value.
                 //
@@ -177,7 +177,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 // again.
 
                     v_state++;
-            }}
+            }
             break;
         //
         // Wait...
@@ -277,7 +277,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
                 break;
             case 6://Turning to press beacon button
-                if (BeaconColorfullness > 1.8){
+                if (BeaconColorfullness >= 3){
                     set_drive_power(0.2,-0.2);
                     if (a_gyro_heading() >= 75){
                         left_encoder_pos=a_left_encoder_count();
