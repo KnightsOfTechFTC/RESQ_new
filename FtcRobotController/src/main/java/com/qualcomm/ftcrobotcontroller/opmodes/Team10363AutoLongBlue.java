@@ -99,7 +99,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         case 0:
             sensorRGBLeft.setI2cAddress(0x42);
             sensorRGBRight.setI2cAddress(0x44);
-            sensorRGBBeacon.setI2cAddress(0x38);
+    //        sensorRGBBeacon.setI2cAddress(0x38);
             //
             // Reset the encoders to ensure they are at a known good value.
             //
@@ -279,14 +279,14 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             case 6://Turning to press beacon button
                 if (BeaconColorfullness >= 2){
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 55){
+                    if (a_gyro_heading() >= 50){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
                         v_state++;
                     }
                 } else {
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 75){
+                    if (a_gyro_heading() >= 65){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
                         v_state++;
@@ -305,7 +305,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
                 set_drive_power(0.2f,0.2f);
 
-                if (have_drive_encoders_reached(left_encoder_pos+1440,right_encoder_pos+1440)) {
+                if (have_drive_encoders_reached(left_encoder_pos+800,right_encoder_pos+800)) {
                     set_drive_power(0.0f,0.0f);
                     clean_beacon(1);
                     v_state++;
