@@ -1605,34 +1605,43 @@ waitForStart();
 run_using_encoders();
 double zeroHeading=a_gyro_heading();
 m_holder_position(.6);
+//Drive towards bin (with Gyro correction)
 while(a_right_blue<2 && !have_drive_encoders_reached(12000,12000)
 {
     adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-zeroHeading));
     set_drive_power(.25f-adjspeed,.25f+adjspeed)
 }
 set_drive_power(0.0f,0.0f);
+//Gyro Turn
 while(a_gyro_heading<=45+zeroHeading){set_drive_power(0.0f,-0.2f)}
 set_drive_power(0.0f,0.0f);
 int left_encoder_pos=a_left_encoder_count();
 int right_encoder_pos=a_right_encoder_count();
 m_holder_position(.8);
+//final go at bin
 while(!have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)){
-    adjspeed=Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-(45+tempGyro)));
+    adjspeed=Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-(45+zeroHeading)));
     set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
 
 }
 set_drive_power(0.0f,0.0f);
 m_holder_position(.95);
+//sense beacon color
 double BeaconColorfullness = sensorRGBBeacon.blue();
 left_encoder_pos=a_left_encoder_count();
 right_encoder_pos=a_right_encoder_count();
+//back up
 while(!anti_have_drive_encoders_reached(left_encoder_pos-1440,right_encoder_pos-1440)){set_drive_power(-0.2f,-0.2f);}
+set_drive_power(0.0f,0.0f)
 m_holder_position(.3);
 clean_beacon(0);
+//choose side and turn towards it (with gyro)
 if(beaconColorfullness>=2){while(a_gyro_heading() < 55){set_drive_power(.2,-.2}
 else{while(a_gyro_heading() < 75){set_drive_power(.2,-.2}}
+set_drive_power(0.0f,0.0f)
 left_encoder_pos=a_left_encoder_count();
 right_encoder_pos=a_right_encoder_count();
+//go towards button
 while(!have_drive_encoders_reached(left_encoder_pos+720,right_encoder_pos+720){set_drive_power(0.5f,0.5f);}
 set_drive_power(0.0f,0.0f);
 clean_beacon(1);
