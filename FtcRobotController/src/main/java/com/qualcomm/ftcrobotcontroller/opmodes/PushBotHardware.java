@@ -1,7 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.ftccommon.DbgLog;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -49,8 +48,6 @@ public class PushBotHardware extends OpMode
         // Initialize class members.
         //
         // All via self-construction.
-
-        this.v_servo_left_arm = v_servo_left_arm;
     } // PushBotHardware
 
     //--------------------------------------------------------------------------
@@ -315,11 +312,9 @@ public class PushBotHardware extends OpMode
     }
     double a_gyro_z()
     {return sensorGyro.rawZ();}
-    int a_left_blue() {return sensorRGBLeft.blue();}
     int a_left_red() {return sensorRGBLeft.red();}
     double a_right_blue() {return sensorRGBRight.blue();}
     void right_led_on(){sensorRGBRight.enableLed(true);}
-    int a_right_red() {return sensorRGBRight.red();}
     //--------------------------------------------------------------------------
     //
     // a_warning_message

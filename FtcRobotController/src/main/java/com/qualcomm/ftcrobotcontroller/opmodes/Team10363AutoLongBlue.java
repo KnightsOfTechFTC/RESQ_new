@@ -158,7 +158,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // If they haven't, then the op-mode remains in this state (i.e this
             // block will be executed the next time this method is called).
             //
-            if ( have_drive_encoders_reached(11000,11000))
+            if ( have_drive_encoders_reached(11200,11200))
             {
 
                 //
@@ -168,7 +168,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 //
                 // Stop the motors.
                 //
-                    set_drive_power (0.0f, 0.0f);
+                    set_drive_power(0.0f, 0.0f);
 
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
@@ -250,9 +250,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
                 if (anti_have_drive_encoders_reached(left_encoder_pos-1440,right_encoder_pos-1440)) {
 
-                    set_drive_power(0.0f,0.0f);
+                    set_drive_power(0.0f, 0.0f);
                     m_holder_position(.3);
-                    clean_beacon(0);
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
 
@@ -281,16 +280,20 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             case 6://Turning to press beacon button
                 if (BeaconBlue >= 2 && BeaconRed<2){
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 50){
+                    if (a_gyro_heading() >= 50+tempGyro){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
+                        clean_beacon(0);
+                        stayinplace=false;
                         v_state++;
                     }
                 } else if (BeaconRed>=2 && BeaconBlue<2) {
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 65){
+                    if (a_gyro_heading() >= 60+tempGyro){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
+                        clean_beacon(0);
+                        stayinplace=false;
                         v_state++;
                     }
                     else{stayinplace=true;}
@@ -309,11 +312,11 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 set_drive_power(0.2f,0.2f);
 
                 if (have_drive_encoders_reached(left_encoder_pos+800,right_encoder_pos+800)|| stayinplace) {
-                    set_drive_power(0.0f,0.0f);
+                    set_drive_power(0.0f, 0.0f);
                     clean_beacon(1);
-                    v_state++;
-                }
+                    v_state++;}
                 break;
+
 
 
 
