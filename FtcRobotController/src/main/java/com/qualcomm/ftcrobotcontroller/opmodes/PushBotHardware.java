@@ -1,6 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.ftccommon.DbgLog;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -73,6 +74,7 @@ public class PushBotHardware extends OpMode
         //
         // The variable below is used to provide telemetry data to a class user.
         //
+
         v_warning_generated = false;
         v_warning_message = "Can't map; ";
 
