@@ -178,8 +178,8 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
                 m_holder_position(.8);
                 if (sensorRGBRight.alpha()>8){set_drive_power(.15,.15);}
-                else if (a_gyro_heading()>315){set_drive_power(0,.2);}
-                else if (a_gyro_heading()<315){set_drive_power(.2,0);}
+                else if (a_gyro_heading()>315+zeroheading){set_drive_power(0,.2);}
+                else if (a_gyro_heading()<315+zeroheading){set_drive_power(.2,0);}
                 else {set_drive_power(.2,.2);}
                 if (a_right_encoder_count()-right_encoder_pos+a_left_encoder_count()-left_encoder_pos>6000) {
                     set_drive_power(0.0f, 0.0f);

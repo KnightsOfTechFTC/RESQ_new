@@ -178,8 +178,8 @@ public class Team10363AutoShortBlue extends PushBotTelemetry
                 telemetry.addData("20", "RightEncoderPos: " + right_encoder_pos);
                 if (sensorRGBRight.alpha()>8){
                     set_drive_power(0.15f,0.15f);}
-                else if (a_gyro_heading()>70+zeroheading){set_drive_power(.2,0);}
-                else if (a_gyro_heading()<70+zeroheading){set_drive_power(0,.2);}
+                else if (a_gyro_heading()>70+zeroheading){set_drive_power(0,.2);}
+                else if (a_gyro_heading()<70+zeroheading){set_drive_power(.2,0);}
                 else {set_drive_power(.2, .2);}
                 m_holder_position(.8);
 

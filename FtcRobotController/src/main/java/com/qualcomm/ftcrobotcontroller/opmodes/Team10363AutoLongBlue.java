@@ -186,7 +186,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             set_drive_power(0.1f, -0.1f);
 
             //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
-            if (sensorRGBRight.alpha()>9) {
+            if (sensorRGBRight.alpha()>10) {
                 set_drive_power(0.0f, 0.0f);
 
                 left_encoder_pos=a_left_encoder_count();
@@ -205,8 +205,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 if (adjspeed>.8){adjspeed=.8;}
                 if (sensorRGBRight.alpha()>8){
                 set_drive_power(0.15f,0.15f);}
-                else if (a_gyro_heading()>45+tempGyro){set_drive_power(.2,0);}
-                else if (a_gyro_heading()<45+tempGyro){set_drive_power(0,.2);}
+                else if (a_gyro_heading()>45+tempGyro){set_drive_power(0,.2);}
+                else if (a_gyro_heading()<45+tempGyro){set_drive_power(.2,0);}
                 else {set_drive_power(.2,.2);}
                 m_holder_position(.8);
 
