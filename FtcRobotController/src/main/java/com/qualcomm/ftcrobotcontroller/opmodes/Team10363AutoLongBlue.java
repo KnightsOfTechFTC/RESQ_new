@@ -217,7 +217,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                     right_encoder_pos=a_right_encoder_count();
                     //Read the beacon light sensor
                     BeaconBlue = sensorRGBBeacon.blue();
-                    BeaconRed=sensorRGBBeacon.red();
+                    BeaconRed = sensorRGBBeacon.red();
                     v_state++;
 
                     }
@@ -226,11 +226,6 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
                 m_holder_position(.95);
 
-            //    try {
-            //        sleep(1000);
-            //    } catch (InterruptedException e) {
-            //        e.printStackTrace();
-            //    }
                 //int x=0;
                 //while (x<=10)
                 //{
@@ -248,6 +243,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             case 5://Go backwards, ensuring that the servos are in the bin
 
                 set_drive_power(-0.2f,-0.2f);
+                clean_beacon(.3);
 
                 if (anti_have_drive_encoders_reached(left_encoder_pos-1440,right_encoder_pos-1440)) {
 
@@ -256,21 +252,6 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
 
-
-                    //double timeToWaitFor2 = System.currentTimeMillis() + 1000;
-                    //while (timeToWaitFor2 > System.currentTimeMillis()) {}
-             //       try {
-             //           sleep(1000);
-             //       } catch (InterruptedException e) {
-             //           e.printStackTrace();
-             //       }
-                    //v_state++;
-             //       try {
-             //           m_holder_position(0);
-             //           sleep(1000);
-             //       } catch (InterruptedException e) {
-             //           e.printStackTrace();
-             //       }
                     v_state++;
 
                     //m_hand_position(1);
@@ -280,8 +261,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 break;
             case 6://Turning to press beacon button
                 if (BeaconBlue >= 2 && BeaconRed<2){
+            //    if (BeaconBlue > BeaconRed ){
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 50+tempGyro){
+                    if (a_gyro_heading() >= 48+tempGyro){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
                         clean_beacon(0);
@@ -289,18 +271,22 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                         v_state++;
                     }
                 } else if (BeaconRed>=2 && BeaconBlue<2) {
+            //    } else if (BeaconRed > BeaconBlue) {
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 60+tempGyro){
+                    if (a_gyro_heading() >= 53+tempGyro){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
                         clean_beacon(0);
                         stayinplace=false;
                         v_state++;
                     }
-                    else{stayinplace=true;}
+                    else {
+                        clean_beacon(1);
+                        stayinplace=true;
+                    }
                 }
                 break;
-            case 7://Go forwards again, ensuring that the robot is in the square area
+            case 7://Go forwards again to press beacon button
 
 
 
@@ -385,13 +371,13 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         //
         update_telemetry(); // Update common telemetry
         telemetry.addData("18", "State: " + v_state);
-        telemetry.addData("88","gyro heading:"+a_gyro_heading());
+        telemetry.addData("80","gyro heading:"+a_gyro_heading());
         telemetry.addData("81","right blue:"+a_right_blue());
-        telemetry.addData("82","Beacon Blue:"+sensorRGBBeacon.blue());
-        telemetry.addData("83","Adjspeed:"+adjspeed);
-        telemetry.addData("84","tempGyro:"+tempGyro);
+        telemetry.addData("82","Adjspeed:"+adjspeed);
+        telemetry.addData("83","tempGyro:"+tempGyro);
+        telemetry.addData("84","Beacon Blue:"+sensorRGBBeacon.blue());
         telemetry.addData("85","Beacon Red:"+sensorRGBBeacon.red());
-        telemetry.addData("85","Beacon Green:"+sensorRGBBeacon.green());
+        telemetry.addData("86","Beacon Green:"+sensorRGBBeacon.green());
     } // loop
 
     //--------------------------------------------------------------------------

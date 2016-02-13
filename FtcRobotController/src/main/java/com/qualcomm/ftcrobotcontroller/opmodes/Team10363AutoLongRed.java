@@ -195,11 +195,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                 m_holder_position(.95);
 
-        //        try {
-        //            sleep(1000);
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        }
+
                 //int x=0;
                 //while (x<=10)
                 //{
