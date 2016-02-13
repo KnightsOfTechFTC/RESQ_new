@@ -75,13 +75,20 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // Reset the encoders to ensure they are at a known good value.
                 //
                 reset_drive_encoders ();
-                if(a_gyro_heading()<180){
-                    zeroheading=a_gyro_heading();
+                if (a_gyro_heading()<180){zeroheading=a_gyro_heading();}
+                else{zeroheading=a_gyro_heading()-360;}
+                sensorRGBLeft.setI2cAddress(0x42);
+                sensorRGBRight.setI2cAddress(0x44);
+                //        sensorRGBBeacon.setI2cAddress(0x3C);
+                //
+                // Reset the encoders to ensure they are at a known good value.
+                //
+                sensorRGBBeacon.enableLed(false);
+                sensorRGBLeft.enableLed(true);
+                sensorRGBRight.enableLed(true);
+                clean_beacon(.7);
                 
-                }
-                else{
-                     zeroheading=360-a_gyro_heading();
-                }
+
 
                 //
                 // Transition to the next state when this method is called again.
@@ -105,7 +112,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 //
                 // Start the drive wheel motors at half power.
                 //
-                double adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-zeroheading));
+                adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-zeroheading));
                 set_drive_power (.25f-adjspeed, .25f+adjspeed);
                 m_holder_position(.6);
 
@@ -115,16 +122,19 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (11000, 11000))
+                if (have_drive_encoders_reached (12500, 12500)|| a_left_red()>2)
                 {
-
+                    if (have_drive_encoders_reached(10363,10363)){
                     // Reset the encoders to ensure they are at a known good value.
                     //
 
                     //
                     // Stop the motors.
                     //
-                        set_drive_power (0.0f, 0.0f);
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
+                        set_drive_power (-0.2f, -0.2f);
+                        if (anti_have_drive_encoders_reached(left_encoder_pos-100,right_encoder_pos-100)){set_drive_power(0,0);}
 
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
@@ -134,7 +144,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                     // again.
 
                     v_state++;
-                }
+                }}
                 break;
             //
             // Wait...
@@ -146,9 +156,10 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
                 //Set the right wheel backwards
                 
-                set_drive_power(-0.25f,0.0f);
+                set_drive_power(-0.1f,0.1f);
                 //Same as before, but with the left wheel backwards and a little bit of extra goodness to prevent any bugs
-                if (a_gyro_heading()<=315+zeroheading&&a_gyro_heading()>270) {
+                if (a_gyro_heading()<=315+zeroheading || sensorRGBLeft.alpha()>8) {
+
                     set_drive_power(0.0f, 0.0f);
 
                     left_encoder_pos=a_left_encoder_count();
@@ -163,15 +174,19 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
-                adjspeed=Math.sin(((2*Math.PI)/360)*(a_gyro_heading()+(45+zeroheading)));
+                adjspeed=Math.sin(((2*Math.PI)/360)*(a_gyro_heading()+(315+zeroheading)));
                 set_drive_power(0.2f-adjspeed,0.2f+adjspeed);
                 m_holder_position(.8);
-
-
-                if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
+                if (sensorRGBRight.alpha()>8){set_drive_power(.15,.15);}
+                else if (a_gyro_heading()>315){set_drive_power(0,.2);}
+                else if (a_gyro_heading()<315){set_drive_power(.2,0);}
+                else {set_drive_power(.2,.2);}
+                if (a_right_encoder_count()-right_encoder_pos+a_left_encoder_count()-left_encoder_pos>6000) {
                     set_drive_power(0.0f, 0.0f);
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
+                    BeaconBlue = sensorRGBBeacon.blue();
+                    BeaconRed=sensorRGBBeacon.red();
 
                     v_state++;
                 }
@@ -209,7 +224,26 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
-                    //double timeToWaitFor2 = System.currentTimeMillis() + 1000;
+                    if (BeaconBlue >= 2 && BeaconRed<2){
+                        set_drive_power(0.2,-0.2);
+                        if (a_gyro_heading() <= 310+zeroheading){
+                            left_encoder_pos=a_left_encoder_count();
+                            right_encoder_pos=a_right_encoder_count();
+                            clean_beacon(0);
+                            stayinplace=false;
+                            v_state++;
+                        }
+                    } else if (BeaconRed>=2 && BeaconBlue<2) {
+                        set_drive_power(0.2,-0.2);
+                        if (a_gyro_heading() <= 300+zeroheading){
+                            left_encoder_pos=a_left_encoder_count();
+                            right_encoder_pos=a_right_encoder_count();
+                            clean_beacon(0);
+                            stayinplace=false;
+                            v_state++;
+                        }
+                        else{stayinplace=true;}
+                    }//double timeToWaitFor2 = System.currentTimeMillis() + 1000;
                     //while (timeToWaitFor2 > System.currentTimeMillis()) {}
          //           try {
          //               sleep(1000);
@@ -235,7 +269,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
          //       telemetry.addData("22", "RightEncoderPos: " + right_encoder_pos);
                 //m_hand_position(1);
                 //m_hand_position(0);
-
+                if (!stayinplace){
                 set_drive_power(0.5f,0.5f);
                 /*try {
 
@@ -248,7 +282,9 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                     set_drive_power(0.0f,0.0f);
 
                     v_state++;
-                }
+                }}
+                else {v_state++;}
+                break;
 
 
 
@@ -314,8 +350,14 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
         //
         // Send telemetry data to the driver station.
         //
-        update_telemetry (); // Update common telemetry
-        telemetry.addData ("18", "State: " + v_state);
+        update_telemetry(); // Update common telemetry
+        telemetry.addData("18", "State: " + v_state);
+        telemetry.addData("88: heading",a_gyro_heading());
+        telemetry.addData("82","Beacon Blue:"+sensorRGBBeacon.blue());
+        telemetry.addData("83","Adjspeed:"+adjspeed);
+        telemetry.addData("84", "zero heading:" + zeroheading);
+        telemetry.addData("85","Beacon Red:"+sensorRGBBeacon.red());
+        telemetry.addData("85","Beacon Green:"+sensorRGBBeacon.green());
 
     } // loop
 
@@ -331,6 +373,10 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
      * a state machine for the loop method.
      */
     private int v_state = 0;
+    private boolean stayinplace=false;
+    private double BeaconBlue =0;
+    private double BeaconRed=0;
+    private double adjspeed=0;
     private int zeroheading=0;
     private double left_encoder_pos = 0;
     private double right_encoder_pos = 0;

@@ -73,6 +73,7 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                 // Reset the encoders to ensure they are at a known good value.
                 //
                 reset_drive_encoders ();
+                zeroheading=a_gyro_heading();
 
                 //
                 // Transition to the next state when this method is called again.
@@ -96,7 +97,8 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                 //
                 // Start the drive wheel motors at half power.
                 //
-                set_drive_power (.25f, .25f);
+                double adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-zeroheading));
+                set_drive_power (.25f-adjspeed, .25f+adjspeed);
                 m_holder_position(.6);
 
                 //
@@ -136,7 +138,7 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                 //Set the right wheel backwards
                 set_drive_power(-0.25f,0.0f);
                 //Same as before, but with the left wheel backwards and a little bit of extra goodness to prevent any bugs
-                if (anti_have_drive_encoders_reached(left_encoder_pos-1500,right_encoder_pos)) {
+                if (sensorRGBRight.alpha()>8) {
                     set_drive_power(0.0f, 0.0f);
 
                     left_encoder_pos=a_left_encoder_count();
@@ -155,10 +157,16 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                 m_holder_position(.8);
 
 
-                if (have_drive_encoders_reached(left_encoder_pos+2880,right_encoder_pos+2880)) {
+                if (sensorRGBRight.alpha()>8){set_drive_power(.15,.15);}
+                else if (a_gyro_heading()>290){set_drive_power(0,.2);}
+                else if (a_gyro_heading()<290){set_drive_power(.2,0);}
+                else {set_drive_power(.2,.2);}
+                if (a_right_encoder_count()-right_encoder_pos+a_left_encoder_count()-left_encoder_pos>6000) {
                     set_drive_power(0.0f, 0.0f);
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
+                    BeaconBlue = sensorRGBBeacon.blue();
+                    BeaconRed =sensorRGBBeacon.red();
 
                     v_state++;
                 }
@@ -215,7 +223,29 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                     //m_hand_position(0);
                 }
                 break;
-            case 6://Go forwards again, ensuring that the robot is in the square area
+            case 6:
+                if (BeaconBlue >= 2 && BeaconRed<2){
+                    set_drive_power(0.2,-0.2);
+                    if (a_gyro_heading() <= 285+zeroheading){
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
+                        clean_beacon(0);
+                        stayinplace=false;
+                        v_state++;
+                    }
+                } else if (BeaconRed>=2 && BeaconBlue<2) {
+                    set_drive_power(0.2,-0.2);
+                    if (a_gyro_heading() <= 275+zeroheading){
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
+                        clean_beacon(0);
+                        stayinplace=false;
+                        v_state++;
+                    }
+                    else{stayinplace=true;}
+                }
+                break;
+            case 7://Go forwards again, ensuring that the robot is in the square area
                 
          //       update_telemetry ();
          //       telemetry.addData("21", "LeftEncoderPos: " + left_encoder_pos);
@@ -232,10 +262,12 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
                     e.printStackTrace();
                 }*/
                 if (have_drive_encoders_reached(left_encoder_pos+720,right_encoder_pos+720)) {
-                    set_drive_power(0.0f,0.0f);
+                    set_drive_power(0.0f, 0.0f);
 
                     v_state++;
                 }
+                break;
+
 
 
 
@@ -318,6 +350,10 @@ public class Team10363AutoShortRed extends PushBotTelemetry {
      * a state machine for the loop method.
      */
     private int v_state = 0;
+    private boolean stayinplace=false;
+    private double zeroheading=0;
+    private double BeaconBlue=0;
+    private double BeaconRed=0;
     private double left_encoder_pos = 0;
     private double right_encoder_pos = 0;
 } // PushBotAuto

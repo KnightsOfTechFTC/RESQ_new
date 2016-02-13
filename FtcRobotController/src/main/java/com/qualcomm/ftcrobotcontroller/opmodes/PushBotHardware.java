@@ -155,9 +155,11 @@ public class PushBotHardware extends OpMode
         sensorRGBRight = hardwareMap.colorSensor.get("right_color");
         sensorRGBLeft.setI2cAddress(0x42);
         sensorRGBRight.setI2cAddress(0x44);
-    //    sensorRGBBeacon.setI2cAddress(0x38);
+    //    sensorRGBBeacon.setI2cAddress(0x3C);
         sensorGyro.calibrate();// Reset the gyro
         sensorRGBBeacon.enableLed(false);
+        sensorRGBLeft.enableLed(false);
+        sensorRGBRight.enableLed(false);
         sensorRGBLeft.enableLed(true);
         sensorRGBRight.enableLed(true);
 
@@ -310,8 +312,7 @@ public class PushBotHardware extends OpMode
     int a_gyro_heading(){
         return sensorGyro.getHeading();
     }
-    double a_gyro_z()
-    {return sensorGyro.rawZ();}
+    double a_gyro_z() {return sensorGyro.rawZ();}
     int a_left_red() {return sensorRGBLeft.red();}
     double a_right_blue() {return sensorRGBRight.blue();}
     void right_led_on(){sensorRGBRight.enableLed(true);}

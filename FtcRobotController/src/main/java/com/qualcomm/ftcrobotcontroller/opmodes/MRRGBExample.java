@@ -54,9 +54,11 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 public class MRRGBExample extends LinearOpMode {
 
   ColorSensor sensorRGB;
+    ColorSensor sensorRightRGB;
 
 
-  @Override
+
+    @Override
   public void runOpMode() throws InterruptedException {
 
     // write some device information (connection info, name and type)
@@ -67,11 +69,19 @@ public class MRRGBExample extends LinearOpMode {
     //sensorRGB = hardwareMap.colorSensor.get("mr");
     sensorRGB = hardwareMap.colorSensor.get("left_color");
     sensorRGB.setI2cAddress(0x42);
+        sensorRightRGB = hardwareMap.colorSensor.get("right_color");
+        sensorRightRGB.setI2cAddress(0x44);
     // bEnabled represents the state of the LED.
     boolean bEnabled = true;
 
     // turn the LED on in the beginning, just so user will know that the sensor is active.
-    sensorRGB.enableLed(true);
+      sensorRGB.enableLed(false);
+      waitOneFullHardwareCycle();
+      sensorRGB.enableLed(true);
+        waitOneFullHardwareCycle();
+        sensorRightRGB.enableLed(false);
+        waitOneFullHardwareCycle();
+        sensorRightRGB.enableLed(true);
 
     // wait one cycle.
     waitOneFullHardwareCycle();
@@ -114,6 +124,8 @@ public class MRRGBExample extends LinearOpMode {
 
         // turn on the LED.
         sensorRGB.enableLed(bEnabled);
+          sensorRightRGB.enableLed(bEnabled);
+
       } else if (bCurrState == false && bCurrState != bPrevState)  {
         // button is transitioning to a released state.
 
@@ -128,6 +140,8 @@ public class MRRGBExample extends LinearOpMode {
 
         // turn off the LED.
         sensorRGB.enableLed(false);
+          sensorRightRGB.enableLed(false);
+
       }
 
       // convert the RGB values to HSV values.
