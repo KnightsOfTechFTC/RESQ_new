@@ -315,7 +315,7 @@ public class PushBotHardware extends OpMode
     double a_gyro_z() {return sensorGyro.rawZ();}
     int a_left_red() {return sensorRGBLeft.red();}
     double a_right_blue() {return sensorRGBRight.blue();}
-    void right_led_on(){sensorRGBRight.enableLed(true);}
+//    void right_led_on(){sensorRGBRight.enableLed(true);}
     //--------------------------------------------------------------------------
     //
     // a_warning_message

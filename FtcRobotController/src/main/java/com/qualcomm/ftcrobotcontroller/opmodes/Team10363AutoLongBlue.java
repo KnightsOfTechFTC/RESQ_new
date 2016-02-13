@@ -99,7 +99,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         case 0:
             sensorRGBLeft.setI2cAddress(0x42);
             sensorRGBRight.setI2cAddress(0x44);
-    //        sensorRGBBeacon.setI2cAddress(0x3C);
+            sensorRGBBeacon.setI2cAddress(0x3C);
             //
             // Reset the encoders to ensure they are at a known good value.
             //
@@ -141,7 +141,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-tempGyro));
             m_holder_position(.6);
             set_drive_power (.25f-adjspeed, .25f+adjspeed);
-            right_led_on();
+    //        right_led_on();
 
 
             //
@@ -186,7 +186,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             set_drive_power(0.1f, -0.1f);
 
             //Same as before, but with the right wheel backwards and a little bit of extra goodness to prevent any bugs
-            if (sensorRGBRight.alpha()>10) {
+            if (sensorRGBRight.alpha()>8) {
                 set_drive_power(0.0f, 0.0f);
 
                 left_encoder_pos=a_left_encoder_count();
@@ -259,6 +259,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 }
 
                 break;
+
             case 6://Turning to press beacon button
                 if (BeaconBlue >= 2 && BeaconRed<2){
             //    if (BeaconBlue > BeaconRed ){
@@ -271,21 +272,22 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                         v_state++;
                     }
                 } else if (BeaconRed>=2 && BeaconBlue<2) {
-            //    } else if (BeaconRed > BeaconBlue) {
-                    set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 53+tempGyro){
-                        left_encoder_pos=a_left_encoder_count();
-                        right_encoder_pos=a_right_encoder_count();
+                    //    } else if (BeaconRed > BeaconBlue) {
+                    set_drive_power(0.2, -0.2);
+                    if (a_gyro_heading() >= 53 + tempGyro) {
+                        left_encoder_pos = a_left_encoder_count();
+                        right_encoder_pos = a_right_encoder_count();
                         clean_beacon(0);
-                        stayinplace=false;
+                        stayinplace = false;
                         v_state++;
                     }
-                    else {
+                } else {
                         clean_beacon(1);
                         stayinplace=true;
-                    }
                 }
+
                 break;
+
             case 7://Go forwards again to press beacon button
 
 
@@ -301,7 +303,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 if (have_drive_encoders_reached(left_encoder_pos+800,right_encoder_pos+800)|| stayinplace) {
                     set_drive_power(0.0f, 0.0f);
                     clean_beacon(1);
-                    v_state++;}
+                    v_state++;
+                }
                 break;
 
 
