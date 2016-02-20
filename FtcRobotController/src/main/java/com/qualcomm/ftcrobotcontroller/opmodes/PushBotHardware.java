@@ -92,6 +92,15 @@ public class PushBotHardware extends OpMode
 
             v_motor_churro_motor = null;
         }
+        try {
+            v_motor_tape_extend=hardwareMap.dcMotor.get("tape_extend");
+        }
+        catch (Exception p_exeception) {
+            m_warning_message("tape_extend");
+            DbgLog.msg(p_exeception.getLocalizedMessage());
+            v_motor_tape_extend=null;
+        }
+
         try
         {
             v_motor_left_drive = hardwareMap.dcMotor.get ("left_drive");
@@ -149,6 +158,7 @@ public class PushBotHardware extends OpMode
         double l_holder_position = 0.05;
         double l_right_dump_position=.43;
         double l_left_dump_position=.57;
+        double l_tape_extend_position=0.7;
         sensorGyro = hardwareMap.gyroSensor.get("gyro");
         sensorRGBBeacon = hardwareMap.colorSensor.get("beacon_color");
         sensorRGBLeft = hardwareMap.colorSensor.get("left_color");
@@ -228,6 +238,15 @@ public class PushBotHardware extends OpMode
             DbgLog.msg (p_exeception.getLocalizedMessage ());
 
             v_servo_right_dump = null;
+        }
+        try {
+            v_servo_tape_angle=hardwareMap.servo.get("tape_angle");
+            v_servo_tape_angle.setPosition(l_tape_extend_position);
+        }
+        catch (Exception p_exeception){
+            m_warning_message("tape_angle");
+            DbgLog.msg(p_exeception.getLocalizedMessage());
+            v_servo_tape_angle=null;
         }
         try
         {
@@ -365,6 +384,17 @@ public class PushBotHardware extends OpMode
         double l_position= Range.clip(p_position,0,1);
         if (v_servo_scrub!=null){v_servo_scrub.setPosition(l_position);}
     }
+    //---------------------------------------------------------------------------
+    double a_tape_angle_position(){
+        double l_return=0.0;
+        if (v_servo_tape_angle!=null){l_return=v_servo_tape_angle.getPosition();}
+        return l_return;
+    }
+    void m_tape_angle_position(double p_position){
+        double l_position=Range.clip(p_position, v_servo_tape_angle.MIN_POSITION,.8);
+        if (v_servo_tape_angle!=null){v_servo_tape_angle.setPosition(l_position);}
+    }
+    //---------------------------------------------------------------------------
     double a_left_dump_position ()
     {
         double l_return = 0.0;
@@ -1446,8 +1476,13 @@ boolean anti_have_drive_encoders_reached
         }
 
     } // m_left_arm_power
-
-    //--------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+    void m_tape_extend_pover(double p_power){
+        if (v_motor_tape_extend!=null){
+            v_motor_tape_extend.setPower(p_power);
+        }
+    }
+// --------------------------------------------------------------------------
     //
     // a_hand_position
     //
@@ -1635,6 +1670,7 @@ boolean anti_have_drive_encoders_reached
      */
     private DcMotor v_motor_right_drive;
     private DcMotor v_motor_churro_motor;
+    private DcMotor v_motor_tape_extend;
 
     //--------------------------------------------------------------------------
     //
@@ -1669,6 +1705,7 @@ boolean anti_have_drive_encoders_reached
     private Servo v_servo_left_flip;
     private Servo v_servo_right_dump;
     private Servo v_servo_left_dump;
+    private Servo v_servo_tape_angle;
     private GyroSensor sensorGyro;
     ColorSensor sensorRGBBeacon;
     ColorSensor sensorRGBRight;
