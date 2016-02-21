@@ -174,9 +174,34 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             }}
             break;
         //
-        // Wait...
-        //
-        case 2:
+            case 2:
+                if (toofar){
+                    set_drive_power(-.2,.2);
+                    if (a_gyro_heading()>=135+tempGyro&&a_gyro_heading()<180+tempGyro){
+                        set_drive_power(0,0);
+                        v_state++;}
+                }
+                else {v_state++;}
+                break;
+            case 3:
+                if (toofar){
+                    set_drive_power(.2,.2);
+                    if (sensorRGBRight.alpha()>8||have_drive_encoders_reached(1440,1440)){
+                        set_drive_power(0,0);
+                        v_state++;
+                    }
+                }
+                else {v_state++;}
+                break;
+            case 4:
+                if (toofar){
+                    set_drive_power(-.2,.2);
+                    if (a_gyro_heading()<10){
+                        set_drive_power(0,0);
+                        v_state++;
+                    }
+                }
+        case 5:
              // Update common telemetry
             update_telemetry();
             telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
@@ -197,36 +222,6 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 }
 
             break;
-            case 3:
-                if (toofar){
-                    if (a_gyro_heading()>=135&&a_gyro_heading()<200){
-                        set_drive_power(0,0);
-                        v_state++;
-                    }
-                }
-                else {v_state++;}
-                break;
-            case 4:
-                if (toofar){
-                    set_drive_power(.2,.2);
-                    if (sensorRGBRight.alpha()>8||have_drive_encoders_reached(1440,1440)){
-                        set_drive_power(0,0);
-                        v_state++;
-                    }
-                }
-                else {v_state++;}
-                break;
-            case 5:
-                if (toofar){
-                    set_drive_power(-.2,.2);
-                    if (a_gyro_heading()<10){
-                        set_drive_power(0,0);
-                        v_state++;
-                    }
-                }
-                else {v_state++;}
-                break;
-
             case 6://Go towards the bin
                 update_telemetry ();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);

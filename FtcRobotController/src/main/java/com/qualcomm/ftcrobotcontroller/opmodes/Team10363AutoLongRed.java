@@ -194,7 +194,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 set_drive_power(-0.1f, 0.1f);
                 //Same as before, but with the left wheel backwards and a little bit of extra goodness to prevent any bugs
                 //        if (a_gyro_heading()<=315+zeroheading || sensorRGBLeft.alpha()>8) {
-                if (sensorRGBRight.alpha() > 8) {
+                if (a_gyro_heading()<=310&&a_gyro_heading()>100) {
                     set_drive_power(0.0f, 0.0f);
 
                     left_encoder_pos = a_left_encoder_count();
@@ -209,7 +209,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 update_telemetry();
 
                 set_drive_power(0.2f, 0.2f);
-                if (have_drive_encoders_reached(left_encoder_pos+600,right_encoder_pos+600)) {
+                if (sensorRGBRight.alpha()>=8||have_drive_encoders_reached(400+left_encoder_pos,400+right_encoder_pos)) {
                     set_drive_power(0.0f, 0.0f);
 
                     left_encoder_pos = a_left_encoder_count();
