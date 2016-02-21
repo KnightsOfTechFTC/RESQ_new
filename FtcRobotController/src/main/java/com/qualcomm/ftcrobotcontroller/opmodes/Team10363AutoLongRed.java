@@ -80,6 +80,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 sensorRGBLeft.setI2cAddress(0x42);
                 sensorRGBRight.setI2cAddress(0x44);
                 sensorRGBBeacon.setI2cAddress(0x3C);
+                toofar=false;
                 //
                 // Reset the encoders to ensure they are at a known good value.
                 //
@@ -125,7 +126,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                     if (have_drive_encoders_reached(10363, 10363)) {
                         // Reset the encoders to ensure they are at a known good value.
                         //
-
+                        if (have_drive_encoders_reached(12500,12500)){toofar=true;}
                         //
                         // Stop the motors.
                         //
@@ -146,15 +147,44 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
             //
             case 2:
                 set_drive_power(-.2,-.2);
-                if(anti_have_drive_encoders_reached(left_encoder_pos-800,right_encoder_pos-800)){
+                if(anti_have_drive_encoders_reached(left_encoder_pos-600,right_encoder_pos-600)){
                     set_drive_power(0,0);
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
                     v_state++;
                 }
                 break;
-
             case 3:
+                if (toofar){
+                    set_drive_power(-.2,.2);
+                    if (a_gyro_heading()<=225+zeroheading&&a_gyro_heading()>180+zeroheading){
+                        set_drive_power(0,0);
+                    v_state++;}
+                }
+                else {v_state++;}
+                break;
+            case 4:
+                if (toofar){
+                    set_drive_power(.2,.2);
+                    if (sensorRGBRight.alpha()>8||have_drive_encoders_reached(1440,1440)){
+                        set_drive_power(0,0);
+                        v_state++;
+                    }
+                }
+                else {v_state++;}
+                break;
+            case 5:
+                if (toofar){
+                    set_drive_power(.2,-.2);
+                    if (a_gyro_heading()<10){
+                        set_drive_power(0,0);
+                        v_state++;
+                    }
+                }
+                else {v_state++;}
+                break;
+
+            case 6:
                 // Update common telemetry
                 update_telemetry();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
@@ -175,8 +205,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                 break;
 
-
-            case 4://Move to left side
+            case 7://Move to left side
                 update_telemetry();
 
                 set_drive_power(0.2f, 0.2f);
@@ -191,7 +220,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                 break;
 
-            case 5://Go towards the bin
+            case 8://Go towards the bin
                 update_telemetry();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
                 telemetry.addData("20", "RightEncoderPos: " + right_encoder_pos);
@@ -219,7 +248,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 }
                 break;
 
-            case 6://Drop the servos holding the climbers
+            case 9://Drop the servos holding the climbers
 
                 m_holder_position(.95);
 
@@ -241,7 +270,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                 break;
 
-            case 7://Go backwards, ensuring that the servos are in the bin
+            case 10://Go backwards, ensuring that the servos are in the bin
 
                 set_drive_power(-0.2f, -0.2f);
                 clean_beacon(.3);
@@ -259,7 +288,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                 break;
 
-            case 8://Turning to press beacon button
+            case 11://Turning to press beacon button
                 if (BeaconBlue >= 2 && BeaconRed < 2) {
                     set_drive_power(0.2, -0.2);
                     if (a_gyro_heading() >= 323 + zeroheading) {
@@ -286,7 +315,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                 break;
 
-            case 9://Go forwards again, ensuring that the robot is in the square area
+            case 12://Go forwards again, ensuring that the robot is in the square area
                 
          //       update_telemetry ();
          //       telemetry.addData("21", "LeftEncoderPos: " + left_encoder_pos);
@@ -391,6 +420,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
      */
     private int v_state = 0;
     private boolean stayinplace=false;
+    private boolean toofar=false;
     private double BeaconBlue =0;
     private double BeaconRed=0;
     private double adjspeed=0;
