@@ -150,6 +150,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                     set_drive_power(0,0);
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
+                    v_state++;
                 }
                 break;
 
