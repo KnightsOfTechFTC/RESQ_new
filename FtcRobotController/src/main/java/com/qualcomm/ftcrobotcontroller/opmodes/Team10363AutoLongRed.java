@@ -129,13 +129,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                         //
                         // Stop the motors.
                         //
-                        left_encoder_pos = a_left_encoder_count();
-                        right_encoder_pos = a_right_encoder_count();
-                        set_drive_power(-0.2f, -0.2f);
-                        if (anti_have_drive_encoders_reached(left_encoder_pos - 100, right_encoder_pos - 100)) {
-                            set_drive_power(0, 0);
-                        }
-
+                        set_drive_power(0,0);
                         left_encoder_pos = a_left_encoder_count();
                         right_encoder_pos = a_right_encoder_count();
 
@@ -151,6 +145,15 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
             // Wait...
             //
             case 2:
+                set_drive_power(-.2,-.2);
+                if(anti_have_drive_encoders_reached(left_encoder_pos-800,right_encoder_pos-800)){
+                    set_drive_power(0,0);
+                    left_encoder_pos=a_left_encoder_count();
+                    right_encoder_pos=a_right_encoder_count();
+                }
+                break;
+
+            case 3:
                 // Update common telemetry
                 update_telemetry();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
@@ -160,21 +163,6 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 set_drive_power(-0.1f, 0.1f);
                 //Same as before, but with the left wheel backwards and a little bit of extra goodness to prevent any bugs
                 //        if (a_gyro_heading()<=315+zeroheading || sensorRGBLeft.alpha()>8) {
-                if (sensorRGBLeft.alpha() > 8) {
-                    set_drive_power(0.0f, 0.0f);
-
-                    left_encoder_pos = a_left_encoder_count();
-                    right_encoder_pos = a_right_encoder_count();
-
-                    v_state++;
-                }
-
-                break;
-
-            case 3://Find line with right sensor
-                update_telemetry();
-
-                set_drive_power(0.0f, 0.2f);
                 if (sensorRGBRight.alpha() > 8) {
                     set_drive_power(0.0f, 0.0f);
 
@@ -185,6 +173,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 }
 
                 break;
+
 
             case 4://Move to left side
                 update_telemetry();
