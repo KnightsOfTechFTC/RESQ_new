@@ -81,6 +81,9 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                 sensorRGBRight.setI2cAddress(0x44);
                 sensorRGBBeacon.setI2cAddress(0x3C);
                 toofar=false;
+                if (sensorRGBRight.red()==0&&sensorRGBRight.blue()==0&&sensorRGBRight.green()==0){colorproblems=true;}
+                else if (sensorRGBLeft.red()==0&&sensorRGBLeft.blue()==0&&sensorRGBLeft.green()==0){colorproblems=true;}
+                else {colorproblems=false;}
                 //
                 // Reset the encoders to ensure they are at a known good value.
                 //
@@ -140,6 +143,12 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
 
                         v_state++;
                     }
+                }
+                if (colorproblems&&have_drive_encoders_reached(11000,11000)){
+                    set_drive_power(0.0f,0.0f);
+                    left_encoder_pos=a_left_encoder_count();
+                    right_encoder_pos=a_right_encoder_count();
+                    v_state++;
                 }
                 break;
             //
@@ -427,5 +436,6 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
     private int zeroheading=0;
     private double left_encoder_pos = 0;
     private double right_encoder_pos = 0;
+    private boolean colorproblems=false;
 } // PushBotAuto
 
