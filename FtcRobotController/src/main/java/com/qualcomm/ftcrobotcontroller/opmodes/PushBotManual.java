@@ -177,8 +177,11 @@ public class PushBotManual extends PushBotTelemetry
         if (gamepad1.dpad_up){m_tape_extend_pover(.6);}
         else if (gamepad1.dpad_down){m_tape_extend_pover(-.6);}
         else {m_tape_extend_pover(0);}
-        if (gamepad1.dpad_right){m_tape_angle_position(a_tape_angle_position()+.01);}
-        if (gamepad1.dpad_left){m_tape_angle_position(a_tape_angle_position()-.01);}
+    //    if (gamepad1.dpad_right){m_tape_angle_position(a_tape_angle_position()+.01);}
+    //    if (gamepad1.dpad_left){m_tape_angle_position(a_tape_angle_position() - .01);}
+        if (gamepad1.dpad_right){m_tape_angle_position(0.7);}
+        else if (gamepad1.dpad_left){m_tape_angle_position(0.3);}
+        else {m_tape_angle_position(0.5);}
         if (gamepad2.x)
         {
             m_left_hand_position(a_left_hand_position() + 0.01);

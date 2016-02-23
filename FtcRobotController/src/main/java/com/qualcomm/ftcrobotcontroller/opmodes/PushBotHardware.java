@@ -158,7 +158,7 @@ public class PushBotHardware extends OpMode
         double l_holder_position = 0.05;
         double l_right_dump_position=.43;
         double l_left_dump_position=.57;
-        double l_tape_extend_position=0.7;
+        double l_tape_extend_position=0.5;
         sensorGyro = hardwareMap.gyroSensor.get("gyro");
         sensorRGBBeacon = hardwareMap.colorSensor.get("beacon_color");
         sensorRGBLeft = hardwareMap.colorSensor.get("left_color");
