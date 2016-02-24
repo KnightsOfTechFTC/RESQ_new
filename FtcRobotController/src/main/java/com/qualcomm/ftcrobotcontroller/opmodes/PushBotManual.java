@@ -174,8 +174,8 @@ public class PushBotManual extends PushBotTelemetry
         // The setPosition methods write the motor power values to the Servo
         // class, but the positions aren't applied until this method ends.
         //
-        if (gamepad1.dpad_down){m_tape_extend_pover(1);}
-        else if (gamepad1.dpad_up){m_tape_extend_pover(-1);}
+        if (gamepad1.dpad_down){m_tape_extend_pover(.8);}
+        else if (gamepad1.dpad_up){m_tape_extend_pover(-.8);}
         else {m_tape_extend_pover(0);}
     //    if (gamepad1.dpad_right){m_tape_angle_position(a_tape_angle_position()+.01);}
     //    if (gamepad1.dpad_left){m_tape_angle_position(a_tape_angle_position() - .01);}
