@@ -97,6 +97,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         // Synchronize the state machine and hardware.
         //
         case 0:
+            // set i2c addresses.
             sensorRGBLeft.setI2cAddress(0x42);
             sensorRGBRight.setI2cAddress(0x44);
             sensorRGBBeacon.setI2cAddress(0x3C);
@@ -104,11 +105,14 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             // Reset the encoders to ensure they are at a known good value.
             //
             reset_drive_encoders();
+            //Turns on and off LEDs.
             sensorRGBBeacon.enableLed(false);
             sensorRGBLeft.enableLed(true);
             sensorRGBRight.enableLed(true);
+            //Moves beacon cleaner out.
             clean_beacon(.7);
             toofar=false;
+            // Detect problems with color sensors.
             if (sensorRGBRight.red()==0&&sensorRGBRight.blue()==0&&sensorRGBRight.green()==0){colorproblems=true;}
             else if (sensorRGBLeft.red()==0&&sensorRGBLeft.blue()==0&&sensorRGBLeft.green()==0){colorproblems=true;}
             else {colorproblems=false;}
@@ -142,14 +146,25 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //Corrected by Gyro
             //
 
+            /*straightDrive: sets individual motor speeds based on clockwise gyro heading and some
+            calculations I came up with during a match after I was asked to add correction. <rant> Some of
+            these things I forget, but not this one.
+
+            I would like to thank Ms. Fedushchenko, my PreCalc teacher, for teaching me trig,
+            Coach Marceau for encouraging me to add gyro correction, and myself for not wanting to
+            add two extra states and instead finding another way. Yay laziness! Yay narcissism!
+            </rant>
+             */
             adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-tempGyro));
+            //move climber holders
             m_holder_position(.6);
+            //set adjusted drive power
             set_drive_power (.25f-adjspeed, .25f+adjspeed);
     //        right_led_on();
 
 
             //
-            // Have the motor shafts turned the required amount?
+            // Have the motor shafts turned the required amount or has Robert seen blue?
             //
             // If they haven't, then the op-mode remains in this state (i.e this
             // block will be executed the next time this method is called).
@@ -157,10 +172,11 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             if (have_drive_encoders_reached(12300,12300)|| a_right_blue()>=2)
 
             {
+                //minimal distance (to avoid accidental triggering)
                 if (have_drive_encoders_reached(10363,10363)){
+                //.
                 //
-                // Reset the encoders to ensure they are at a known good value.
-                //
+                    //If Robert did not see blue, trigger the toofar flag.
                     if (have_drive_encoders_reached(12300,12300)){toofar=true;}
                 //
                 // Stop the motors.
@@ -175,6 +191,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
                     v_state++;
             }}
+            //If color sensors have problems (as I discussed in state 0), run based on encoders
             if (colorproblems&&have_drive_encoders_reached(11000,11000)){
                 set_drive_power(0.0f,0.0f);
                 left_encoder_pos=a_left_encoder_count();
@@ -183,6 +200,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             }
             break;
         //
+            //these states should only work if toofar is triggered. If it isn't, then these states should be skipped.
             case 2:
                 if (toofar){
                     set_drive_power(-0.2f,0.2f);
@@ -238,18 +256,37 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
             break;
             case 6://Go towards the bin
-                update_telemetry ();
+                update_telemetry();
                 telemetry.addData("19", "LeftEncoderPos: " + left_encoder_pos);
-                telemetry.addData ("20", "RightEncoderPos: " + right_encoder_pos);
+                telemetry.addData("20", "RightEncoderPos: " + right_encoder_pos);
 
+
+                //Avoids motors going faster than 1.
                 if (adjspeed>.8){adjspeed=.8;}
+                //Robert's Jukes. Also called LineFollower because it follows the white line based on gyro and color sensors.
                 if (sensorRGBRight.alpha()>8){
-                set_drive_power(0.15f,0.15f);}
+                set_drive_power(0.2,0.2);}
                 else if (a_gyro_heading()>45+tempGyro){set_drive_power(0,.2);}
                 else if (a_gyro_heading()<45+tempGyro){set_drive_power(.2,0);}
                 else {set_drive_power(.2,.2);}
                 m_holder_position(.8);
-
+                //If encoder positions don't change, increase counter.
+                if (leftEnconderProblems == a_left_encoder_count() && rightEnconderProblems == a_right_encoder_count()){
+                    count = count + 1;
+                }else {
+                    count = 0;
+                    leftEnconderProblems = a_left_encoder_count();
+                    rightEnconderProblems = a_right_encoder_count();
+                }
+                // Is counter greater than 126 iters (3*42)? If so, skip to next state.
+                if (count > 126){
+                    set_drive_power(0.0f, 0.0f);
+                    update_telemetry();
+                    telemetry.addData("200", "Skipped case 6, we seemed to stay in one place");
+                    left_encoder_pos = leftEnconderProblems;
+                    right_encoder_pos = rightEnconderProblems;
+                    v_state++;
+                }
 
                 if (a_left_encoder_count()-left_encoder_pos+a_right_encoder_count()-right_encoder_pos>=6000) {
                     set_drive_power(0.0f, 0.0f);
@@ -421,6 +458,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
         telemetry.addData("84","Beacon Blue:"+sensorRGBBeacon.blue());
         telemetry.addData("85","Beacon Red:"+sensorRGBBeacon.red());
         telemetry.addData("86","Beacon Green:"+sensorRGBBeacon.green());
+        telemetry.addData("87","Count:"+count);
     } // loop
 
     //--------------------------------------------------------------------------
@@ -434,6 +472,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
      * actions are complete, the state will change to state_2.  This implements
      * a state machine for the loop method.
      */
+    private double count = 0;
+    private double rightEnconderProblems = 0;
+    private double leftEnconderProblems = 0;
     private int v_state = 0;
     private double left_encoder_pos = 0;
     private double right_encoder_pos = 0;
