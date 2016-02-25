@@ -211,6 +211,10 @@ public class PushBotManual extends PushBotTelemetry
         if (gamepad1.dpad_right){m_tape_angle_position(0.7);}
         else if (gamepad1.dpad_left){m_tape_angle_position(0.3);}
         else {m_tape_angle_position(0.5);}
+        //These buttons lock and unlock the gears
+        //Don't use them unless you know what you're doing
+        if (gamepad1.y){final_lock();}
+        if (gamepad1.guide){unlock_gear();}
 
         if (gamepad2.x)
         {

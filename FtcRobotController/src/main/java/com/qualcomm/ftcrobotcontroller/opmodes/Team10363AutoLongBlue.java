@@ -205,6 +205,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                     set_drive_power(-0.2f,0.2f);
                     if (a_gyro_heading()>=135+tempGyro&&a_gyro_heading()<180+tempGyro){
                         set_drive_power(0.0f,0.0f);
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
                         v_state++;}
                 }
                 else {v_state++;}
@@ -212,7 +214,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             case 3:
                 if (toofar){
                     set_drive_power(0.2f,0.2f);
-                    if (sensorRGBRight.alpha()>8||have_drive_encoders_reached(1440,1440)){
+                    if (sensorRGBRight.alpha()>8||have_drive_encoders_reached(1440+left_encoder_pos,1440+right_encoder_pos)){
                         set_drive_power(0.0f,0.0f);
                         v_state++;
                     }
@@ -225,6 +227,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                     if (a_gyro_heading()<10){
                         set_drive_power(0.0f,0.0f);
                         v_state++;
+                        left_encoder_pos=a_left_encoder_count();
+                        right_encoder_pos=a_right_encoder_count();
                     }
                 }
         case 5:

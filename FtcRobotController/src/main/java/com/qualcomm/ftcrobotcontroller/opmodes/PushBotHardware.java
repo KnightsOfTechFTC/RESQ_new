@@ -159,6 +159,7 @@ public class PushBotHardware extends OpMode
         double l_right_dump_position=.43;
         double l_left_dump_position=.52;
         double l_tape_extend_position=0.5;
+        double l_lock_position=.3;
         sensorGyro = hardwareMap.gyroSensor.get("gyro");
         sensorRGBBeacon = hardwareMap.colorSensor.get("beacon_color");
         sensorRGBLeft = hardwareMap.colorSensor.get("left_color");
@@ -192,6 +193,15 @@ public class PushBotHardware extends OpMode
             DbgLog.msg (p_exeception.getLocalizedMessage ());
 
             v_servo_left_hand = null;
+        }
+        try {
+            v_servo_lock=hardwareMap.servo.get("lock");
+            v_servo_lock.setPosition(l_lock_position);
+        }
+        catch (Exception p_exeception){
+            m_warning_message("lock");
+            DbgLog.msg(p_exeception.getLocalizedMessage());
+            v_servo_lock=null;
         }
         try {
             v_servo_scrub=hardwareMap.servo.get("beacon");
@@ -395,6 +405,13 @@ public class PushBotHardware extends OpMode
         if (v_servo_tape_angle!=null){v_servo_tape_angle.setPosition(l_position);}
     }
     //---------------------------------------------------------------------------
+    void final_lock(){
+        if (v_servo_lock!=null){v_servo_lock.setPosition(v_servo_lock.MIN_POSITION);}
+    }
+    void unlock_gear(){
+        if (v_servo_lock!=null){v_servo_lock.setPosition(.3);}
+    }
+    //---------------------------------------------------------------------------
     double a_left_dump_position ()
     {
         double l_return = 0.0;
@@ -406,7 +423,8 @@ public class PushBotHardware extends OpMode
 
         return l_return;
 
-    } // a_left_dump_position
+    }
+    // a_left_dump_position
     //--------------------------------------------------------------------------
     //
     // m_left_dump_position
@@ -1707,6 +1725,7 @@ boolean anti_have_drive_encoders_reached
     private Servo v_servo_left_dump;
     private Servo v_servo_tape_angle;
     private GyroSensor sensorGyro;
+    private Servo v_servo_lock;
     ColorSensor sensorRGBBeacon;
     ColorSensor sensorRGBRight;
     ColorSensor sensorRGBLeft;
