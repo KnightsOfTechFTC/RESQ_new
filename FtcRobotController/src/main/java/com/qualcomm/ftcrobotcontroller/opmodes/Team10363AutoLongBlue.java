@@ -112,7 +112,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //Moves beacon cleaner out.
             clean_beacon(.7);
             toofar=false;
-            // Detect problems with color sensors.
+            // Detect problems with color sensors. If there are problems, they will give readings of 0, which triggers the flag
             if (sensorRGBRight.red()==0&&sensorRGBRight.blue()==0&&sensorRGBRight.green()==0){colorproblems=true;}
             else if (sensorRGBLeft.red()==0&&sensorRGBLeft.blue()==0&&sensorRGBLeft.green()==0){colorproblems=true;}
             else {colorproblems=false;}
@@ -147,13 +147,9 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
             //
 
             /*straightDrive: sets individual motor speeds based on clockwise gyro heading and some
-            calculations I came up with during a match after I was asked to add correction. <rant> Some of
-            these things I forget, but not this one.
-
-            I would like to thank Ms. Fedushchenko, my PreCalc teacher, for teaching me trig,
-            Coach Marceau for encouraging me to add gyro correction, and myself for not wanting to
-            add two extra states and instead finding another way. Yay laziness! Yay narcissism!
-            </rant>
+            calculations I came up with during a match after I was asked to add correction. Note that
+            it converts degrees to radians, subtracts tempGyro (the zero heading set in case 0) from the total,
+            and will go in circles if you input the counter clockwise heading (or how it works in trig).
              */
             adjspeed=.5*Math.sin(((2*Math.PI)/360)*(a_gyro_heading()-tempGyro));
             //move climber holders
@@ -182,7 +178,10 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 // Stop the motors.
                 //
                     set_drive_power(0.0f, 0.0f);
-
+                    /*
+                    left_encoder_pos and right_encoder_pos: these are used
+                    in later states to find the change in encoder_count
+                    */
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
                 //
@@ -247,6 +246,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
 
                 v_state++;
                 }
+                //avoiding color sensor i2c problems, like in case 1.
             if (colorproblems&&a_gyro_heading()>=45+tempGyro){
                 set_drive_power(0.0f,0.0f);
                 left_encoder_pos=a_left_encoder_count();
@@ -270,6 +270,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 else if (a_gyro_heading()<45+tempGyro){set_drive_power(.2,0);}
                 else {set_drive_power(.2,.2);}
                 m_holder_position(.8);
+                
+                //leftEncoderProblems and rightEncoderProblems: if motors stall, skip to next state to avoid damage.
                 //If encoder positions don't change, increase counter.
                 if (leftEnconderProblems == a_left_encoder_count() && rightEnconderProblems == a_right_encoder_count()){
                     count = count + 1;
@@ -285,6 +287,8 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                     telemetry.addData("200", "Skipped case 6, we seemed to stay in one place");
                     left_encoder_pos = leftEnconderProblems;
                     right_encoder_pos = rightEnconderProblems;
+                    BeaconBlue = sensorRGBBeacon.blue();
+                    BeaconRed = sensorRGBBeacon.red();
                     v_state++;
                 }
 
@@ -325,6 +329,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 if (anti_have_drive_encoders_reached(left_encoder_pos-1440,right_encoder_pos-1440)) {
 
                     set_drive_power(0.0f, 0.0f);
+                    //move holder back to original place
                     m_holder_position(.3);
                     left_encoder_pos=a_left_encoder_count();
                     right_encoder_pos=a_right_encoder_count();
@@ -360,6 +365,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                     }
                 } else {
                         clean_beacon(1);
+                        //stayinplace: flag to skip case 10.
                         stayinplace=true;
                 }
 
