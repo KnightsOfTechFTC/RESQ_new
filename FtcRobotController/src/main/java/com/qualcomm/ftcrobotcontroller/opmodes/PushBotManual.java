@@ -82,6 +82,7 @@ public class PushBotManual extends PushBotTelemetry
         boolean slow = false;
         if(gamepad1.left_bumper){slow=true;}
 
+
         //
         // Automatically Auto-Adjusts
         //
@@ -92,7 +93,7 @@ public class PushBotManual extends PushBotTelemetry
         double gyroZ=a_gyro_z();
         //scale is how fast it goes. 1 is a *1 modifier, .4 is a *.4 modifier, etc.
         float scale = 1;
-        if(slow){scale = 0.4f;}
+        if(slow){scale = 0.3f;}
         /*
         This is a manual implementation of straightDrive. First, if its going slow, record the gyro heading
         Otherwise, if both of the sticks are close to the center, record the gyro heading. Otherwise,
@@ -104,6 +105,7 @@ public class PushBotManual extends PushBotTelemetry
         in straightDrive current_heading will not change. When not in straightDrive, however, it will
         change to meet the current heading.
         */
+
         if (slow){
             current_heading = a_gyro_heading();
         } else if (Math.abs(gamepad1.left_stick_y) <= 0.1 && Math.abs(gamepad1.right_stick_y) <= 0.1){
@@ -130,11 +132,11 @@ public class PushBotManual extends PushBotTelemetry
         telemetry.addData("53: Gamepad 1 Left Stick Y", gamepad1.left_stick_y);
 
         //Scales sticks so if they're almost equal, Robert won't turn.
-        float l_left_drive_power = scale_motor_power (((-gamepad1.left_stick_y*scale)));
-        float l_right_drive_power = scale_motor_power (((-gamepad1.right_stick_y*scale)));
+        float l_left_drive_power = scale_motor_power (((-gamepad1.left_stick_y)));
+        float l_right_drive_power = scale_motor_power (((-gamepad1.right_stick_y)));
         //Add in adjspeed corrections
-        l_left_drive_power = Range.clip(((float) ((l_left_drive_power) - adjspeed)), -1, 1);
-        l_right_drive_power = Range.clip(((float) ((l_right_drive_power) + adjspeed)), -1, 1);
+        l_left_drive_power = Range.clip(((float) ((l_left_drive_power*scale) - adjspeed)), -1, 1);
+        l_right_drive_power = Range.clip(((float) ((l_right_drive_power*scale) + adjspeed)), -1, 1);
 
         //Add some telemetry about that
         telemetry.addData("54: left_drive_power", l_left_drive_power);
