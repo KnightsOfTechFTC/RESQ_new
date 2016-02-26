@@ -171,9 +171,9 @@ public class PushBotManual extends PushBotTelemetry
         // right bucket store position
         if (gamepad2.y){m_right_bucket_rotate_position(.4); m_right_dump_position(.5);}
         // left bucket dump position
-        if (gamepad2.guide){m_left_bucket_rotate_position(.57); m_left_dump_position(.43);}
+        if (gamepad2.guide){m_left_bucket_rotate_position(.2); m_left_dump_position(.9);}//Old values: .57,.43
         // right bucket dump position
-        if (gamepad2.start){m_right_bucket_rotate_position(.67); m_right_dump_position(.5);}
+        if (gamepad2.start){m_right_bucket_rotate_position(.8); m_right_dump_position(.1);}//Old Values: .67 .5
 
         //Updates telemetry again. Are as labeled
         update_telemetry();
