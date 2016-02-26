@@ -177,7 +177,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
             case 4:
                 if (toofar){
                     set_drive_power(.2,.2);
-                    if (sensorRGBRight.alpha()>8||have_drive_encoders_reached(1440+left_encoder_pos,1440+right_encoder_pos)){
+                    if (sensorRGBRight.alpha()>8||have_drive_encoders_reached(2000+left_encoder_pos,2000+right_encoder_pos)){
                         set_drive_power(0,0);
                         v_state++;
                     }
@@ -304,7 +304,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
             case 11://Turning to press beacon button
                 if (BeaconBlue >= 2 && BeaconRed < 2) {
                     set_drive_power(0.2, -0.2);
-                    if (a_gyro_heading() >= 323 + zeroheading) {
+                    if (a_gyro_heading() >= 325 + zeroheading) {
                         left_encoder_pos = a_left_encoder_count();
                         right_encoder_pos = a_right_encoder_count();
                         clean_beacon(0);
@@ -313,7 +313,7 @@ public class Team10363AutoLongRed extends PushBotTelemetry {
                     }
                 } else if (BeaconRed >= 2 && BeaconBlue < 2) {
                     set_drive_power(0.2, -0.2);
-                    if (a_gyro_heading() >= 318 + zeroheading) {
+                    if (a_gyro_heading() >= 320 + zeroheading) {
                         left_encoder_pos = a_left_encoder_count();
                         right_encoder_pos = a_right_encoder_count();
                         clean_beacon(0);

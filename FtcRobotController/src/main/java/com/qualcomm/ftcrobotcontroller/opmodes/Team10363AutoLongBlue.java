@@ -350,7 +350,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 if (BeaconBlue >= 2 && BeaconRed<2){
             //    if (BeaconBlue > BeaconRed ){
                     set_drive_power(0.2,-0.2);
-                    if (a_gyro_heading() >= 48+tempGyro){
+                    if (a_gyro_heading() >= 52+tempGyro){
                         left_encoder_pos=a_left_encoder_count();
                         right_encoder_pos=a_right_encoder_count();
                         clean_beacon(0);
@@ -360,7 +360,7 @@ public class Team10363AutoLongBlue extends PushBotTelemetry
                 } else if (BeaconRed>=2 && BeaconBlue<2) {
                     //    } else if (BeaconRed > BeaconBlue) {
                     set_drive_power(0.2, -0.2);
-                    if (a_gyro_heading() >= 53 + tempGyro) {
+                    if (a_gyro_heading() >= 57 + tempGyro) {
                         left_encoder_pos = a_left_encoder_count();
                         right_encoder_pos = a_right_encoder_count();
                         clean_beacon(0);
