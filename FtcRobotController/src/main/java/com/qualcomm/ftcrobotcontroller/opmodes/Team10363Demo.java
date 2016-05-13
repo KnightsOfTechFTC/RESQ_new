@@ -116,7 +116,7 @@ public class Team10363Demo extends PushBotTelemetry {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (sensorRGBRight.alpha()>=8||have_drive_encoders_reached(10363,10363))
+                if (sensorRGBLeft.alpha()>=8||have_drive_encoders_reached(10363,10363))
                 {
                     //
                     // Reset the encoders to ensure they are at a known good value.
@@ -134,19 +134,21 @@ public class Team10363Demo extends PushBotTelemetry {
                 }
                 break;
             case 2:
-                set_drive_power(0.5f,-0.5f);
+                set_drive_power(0.25f,-0.25f);
                 if (a_gyro_heading()>=90){
                     set_drive_power(0.0f,0.0f);
                     v_state++;
+                    leftEncoderPos=a_left_encoder_count();
+                    rightEncoderPos=a_right_encoder_count();
                 }
                 break;
             case 3:
-                if (sensorRGBRight.alpha()>8){
+                if (sensorRGBLeft.alpha()>8){
                     set_drive_power(0.2,0.2);}
                 else if (a_gyro_heading()>90+tempGyro){set_drive_power(0,.2);}
                 else if (a_gyro_heading()<90+tempGyro){set_drive_power(.2,0);}
                 else {set_drive_power(.2,.2);}
-                if (sensorRGBLeft.blue()>=2){
+                if (sensorRGBLeft.blue()>=2||have_drive_encoders_reached(5000+leftEncoderPos,5000+rightEncoderPos)){
                     set_drive_power(0.0f,0.0f);
                     v_state++;
                 }
@@ -218,6 +220,9 @@ public class Team10363Demo extends PushBotTelemetry {
         //
         update_telemetry (); // Update common telemetry
         telemetry.addData ("18", "State: " + v_state);
+        telemetry.addData("36", "adjspeed: "+adjspeed);
+        telemetry.addData("88", "Left Alpha: "+ sensorRGBLeft.alpha());
+        telemetry.addData("81", "Left Blue: "+sensorRGBLeft.blue());
 
     } // loop
 
@@ -239,6 +244,8 @@ public class Team10363Demo extends PushBotTelemetry {
     private boolean colorproblems=false;
     private boolean toofar=false;
     private double tempGyro=0;
+    private int leftEncoderPos=0;
+    private int rightEncoderPos=0;
     private double adjspeed=0;
 } // PushBotAuto
 

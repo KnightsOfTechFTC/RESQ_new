@@ -70,6 +70,7 @@ public class FtcOpModeRegister implements OpModeRegister {
       manager.register ("Team10363AutoLongStraight", Team10363AutoLongStraight.class);
       manager.register ("Team10363AutoShortStraight", Team10363AutoShortStraight.class);
       manager.register("LEDTest", MRRGBExample.class);
+      manager.register ("Demo",Team10363Demo.class);
     //manager.register("LinearI2cAddressChange(DontPush)", LinearI2cColorSensorAddressChange9915.class);
     /*
      * Uncomment any of the following lines if you want to register an op mode.
